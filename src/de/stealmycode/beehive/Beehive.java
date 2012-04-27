@@ -1,4 +1,4 @@
-package de.stealmycode.behive;
+package de.stealmycode.beehive;
 
 public class Beehive {
 
