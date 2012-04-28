@@ -77,22 +77,20 @@ public class MeadowRenderer {
 		sprite.texture.bind(); // or GL11.glBind(texture.getTextureID());
 		
 		angle += (float)(Math.PI / 4.0);
-		float midX = x + sprite.width / 2.0f;
-		float midY = y + sprite.height / 2.0f;
 		float cosVal = (float) Math.cos(angle);
 		float sinVal = (float) Math.sin(angle);
 		
-		float x1 = midX - sprite.width * DIV_SQRT_2 * sinVal;
-		float y1 = midY + sprite.height * DIV_SQRT_2 * cosVal;
+		float x1 = x - sprite.width * DIV_SQRT_2 * sinVal;
+		float y1 = y + sprite.height * DIV_SQRT_2 * cosVal;
 		
-		float x2 = midX + sprite.width * DIV_SQRT_2 * cosVal;
-		float y2 = midY + sprite.height * DIV_SQRT_2 * sinVal;
+		float x2 = x + sprite.width * DIV_SQRT_2 * cosVal;
+		float y2 = y + sprite.height * DIV_SQRT_2 * sinVal;
 		
-		float x3 = midX + sprite.width * DIV_SQRT_2 * sinVal;
-		float y3 = midY - sprite.height * DIV_SQRT_2 * cosVal;
+		float x3 = x + sprite.width * DIV_SQRT_2 * sinVal;
+		float y3 = y - sprite.height * DIV_SQRT_2 * cosVal;
 		
-		float x4 = midX - sprite.width * DIV_SQRT_2 * cosVal;
-		float y4 = midY - sprite.height * DIV_SQRT_2 * sinVal;
+		float x4 = x - sprite.width * DIV_SQRT_2 * cosVal;
+		float y4 = y - sprite.height * DIV_SQRT_2 * sinVal;
 		
 
 		GL11.glBegin(GL11.GL_QUADS);
