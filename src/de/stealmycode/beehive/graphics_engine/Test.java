@@ -12,6 +12,13 @@ public class Test {
 		
 		while(!window.isCloseRequested()) {
 			window.render();
+			
+			try {
+				Thread.sleep(100);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 		
 		window.closeWindow();

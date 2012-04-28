@@ -35,32 +35,61 @@ public class ImageManager {
 	/**
 	 * Contains the rectangles to the sprites.
 	 * 
-	 * rectangleOfSprite[spriteId] = [x, y, width, height, rectWidth, rectHeight]
+	 * rectangleOfSprite[spriteId] = [textureId, x, y, width, height, rectWidth, rectHeight]
 	 */
 	private float[][] rectangleOfSprite;
 	
 	/**
-	 * The texture containing the image.
+	 * The array containing the textures containing the images.
 	 */
-	private Texture texture;
+	private Texture[] textures;
 	
 	/**
 	 * Determines how many milliseconds have to pass till the next
 	 * sprite is shown.
 	 */
-	private static final int renderRate = 100;
+	private static final int renderRate = 500;
 	
 	/**
-	 * Loads the given file in an image.
-	 * This image contains all sprites to render.
+	 * Loads the files described by the given description file.
 	 * 
 	 * @param fileName The filename of the image.
 	 * 
 	 * @return true if the image was successfully loaded.
 	 */
-	public boolean loadImage(String fileName) {
+	public boolean loadImage(String path, String fileName) {
 		try {
-			texture = TextureLoader.getTexture("PNG", ResourceLoader.getResourceAsStream(fileName));
+			BufferedReader reader = new BufferedReader(
+					new InputStreamReader(ResourceLoader.getResourceAsStream(
+							path + "/" + fileName)));
+			
+			HashMap<Integer, Texture> idToTexture = new HashMap<Integer, Texture>();
+			int maxId = 0;
+			
+			String line = reader.readLine();
+			while(line != null) {
+				try {
+					String[] parts = line.split(", ");
+					int id = Integer.parseInt(parts[0]);
+					Texture texture = 
+							TextureLoader.getTexture("PNG", 
+									ResourceLoader.getResourceAsStream(
+											path + "/" + parts[1]));
+					idToTexture.put(id, texture);
+					if(id > maxId) {
+						maxId = id;
+					}
+				} catch(Exception e) {
+					Logger.logw("Could not parse texture description line: " + line, this.getClass());
+				} finally {
+					line = reader.readLine();
+				}
+			}
+			textures = new Texture[maxId+1];
+			for(Integer key : idToTexture.keySet()) {
+				textures[key] = idToTexture.get(key);
+			}
+			
 			return true;
 		} catch (Exception e) {
 			Logger.loge("Could not load image", e, this.getClass());
@@ -76,7 +105,7 @@ public class ImageManager {
 	 * is given in this description.
 	 * 
 	 * File formate:
-	 * imageId, x, y, width, height, optional comment
+	 * imageId, textureId, x, y, width, height, optional comment
 	 * 
 	 * @param fileName The filename of the description.
 	 * 
@@ -90,17 +119,18 @@ public class ImageManager {
 			String line = reader.readLine();
 			while(line != null) {
 				String[] parts = line.replace(" ", "").split(",");
-				if(parts.length >= 5) {
+				if(parts.length >= 6) {
 					try {
-						Integer[] values = new Integer[5];
-						for(int i=0; i<5; i++) {
+						Integer[] values = new Integer[6];
+						for(int i=0; i<6; i++) {
 							values[i] = Integer.parseInt(parts[i]);
 						}
 						readedList.add(values);
 					} catch(Exception e) {
 						Logger.logw("Could not parse description line: " + line, this.getClass());
+					} finally {
+						line = reader.readLine();
 					}
-					line = reader.readLine();
 				}
 			}
 			// summarize by imageId
@@ -129,15 +159,21 @@ public class ImageManager {
 				int[] spriteIds = new int[list.size()];
 				for(int i=0; i<list.size(); i++) {
 					Integer[] array = list.get(i);
-					float[] rectangle = new float[6];
+					float[] rectangle = new float[7];
+					
+					if(array[1] < 0 || array[1] >= textures.length) {
+						continue;
+					}
 					
 					// size of rectangle must be calculated to the texture size
-					rectangle[0] = ((float) array[1])/((float) texture.getImageWidth())*texture.getWidth(); // x
-					rectangle[1] = ((float) array[2])/((float) texture.getImageHeight())*texture.getHeight(); // y
-					rectangle[2] = array[3]; // width
-					rectangle[3] = array[4]; // height
-					rectangle[4] = ((float) array[3])/((float) texture.getImageWidth())*texture.getWidth(); // rectWidth
-					rectangle[5] = ((float) array[4])/((float) texture.getImageHeight())*texture.getHeight(); // rectHeight
+					rectangle[0] = array[1];
+					Texture texture = textures[array[1]];
+					rectangle[1] = ((float) array[2])/((float) texture.getImageWidth())*texture.getWidth(); // x
+					rectangle[2] = ((float) array[3])/((float) texture.getImageHeight())*texture.getHeight(); // y
+					rectangle[3] = array[4]; // width
+					rectangle[4] = array[5]; // height
+					rectangle[5] = ((float) array[4])/((float) texture.getImageWidth())*texture.getWidth(); // rectWidth
+					rectangle[6] = ((float) array[5])/((float) texture.getImageHeight())*texture.getHeight(); // rectHeight
 					
 					rectangleOfSprite[spriteId] = rectangle;
 					spriteIds[i] = spriteId;
@@ -187,13 +223,13 @@ public class ImageManager {
 		float[] rectangle = rectangleOfSprite[spriteId];
 		
 		Sprite sprite = new Sprite();
-		sprite.texture = texture;
-		sprite.x = rectangle[0];
-		sprite.y = rectangle[1];
-		sprite.width = rectangle[2];
-		sprite.height = rectangle[3];
-		sprite.rectWidth = rectangle[4];
-		sprite.rectHeight = rectangle[5];
+		sprite.texture = textures[(int)rectangle[0]];
+		sprite.x = rectangle[1];
+		sprite.y = rectangle[2];
+		sprite.width = rectangle[3];
+		sprite.height = rectangle[4];
+		sprite.rectWidth = rectangle[5];
+		sprite.rectHeight = rectangle[6];
 		
 		return sprite;
 	}

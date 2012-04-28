@@ -24,6 +24,7 @@ public class Window {
 	private int height;
 	
 	private ImageManager imageManager;
+	private MeadowRenderer meadowRenderer;
 	
 	/**
 	 * Creates a new instance of this class with standard values.
@@ -55,12 +56,15 @@ public class Window {
 			Display.setDisplayMode(new DisplayMode(width, height));
 			Display.create();
 			
-			Renderer renderer = new Renderer();
-			renderer.init(width, height);
+			meadowRenderer = new MeadowRenderer();
+			meadowRenderer.init(width, height);
 			
 			imageManager = new ImageManager();
-			imageManager.loadImage("ressources/sprite_test.png");
+			imageManager.loadImage("ressources", "texture_test_description.desc");
 			imageManager.loadImageDescription("ressources/sprite_test_description.desc");
+			
+			meadowRenderer.setImageRenderer(imageManager);
+			
 			return true;
 		} catch (LWJGLException e) {
 			Logger.loge("Could not set display mode.", e, this.getClass());
@@ -89,6 +93,7 @@ public class Window {
 	 */
 	public void render() {
 		// TODO render images
+		meadowRenderer.draw();
 		
 		Display.update();
 	}
