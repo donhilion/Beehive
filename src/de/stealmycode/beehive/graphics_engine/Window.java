@@ -1,9 +1,13 @@
 package de.stealmycode.beehive.graphics_engine;
 
+import java.util.List;
+
 import org.lwjgl.LWJGLException;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
 
+import de.stealmycode.beehive.interfaces.IDrawable;
+import de.stealmycode.beehive.interfaces.IMovable;
 import de.stealmycode.beehive.utils.Logger;
 
 
@@ -30,7 +34,7 @@ public class Window {
 	 * Creates a new instance of this class with standard values.
 	 */
 	public Window() {
-		this(640, 480);
+		this(800, 600);
 	}
 	
 	/**
@@ -96,6 +100,18 @@ public class Window {
 		meadowRenderer.draw();
 		
 		Display.update();
+	}
+	
+	public void setStaticObjects(List<IDrawable> list) {
+		if(meadowRenderer != null) {
+			meadowRenderer.setStaticObjects(list);
+		}
+	}
+	
+	public void setDynamicObjects(List<IMovable> list) {
+		if(meadowRenderer != null) {
+			meadowRenderer.setDynamicObjects(list);
+		}
 	}
 	
 }
