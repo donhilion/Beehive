@@ -1,4 +1,4 @@
-package de.stealmycode.beehive.controller.interfaces;
+package de.stealmycode.beehive.interfaces;
 
 import de.stealmycode.beehive.model.world.Position;
 import utils.Direction;
