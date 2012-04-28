@@ -29,7 +29,7 @@ public class World implements IWorld {
 			for (int y = 0; y < height; y++) {
 				fields[x][y] = new Field(new Position(x, y));
 				for (FieldProperty property : AvailableProperties.getProperties()) {
-					if (r.nextFloat() <= DEF_PROBABILITY * property.probability) {
+					if (r.nextFloat() <= DEF_PROBABILITY * property.getProbability()) {
 						fields[x][y].addProperty(property.clone());
 					}
 				}

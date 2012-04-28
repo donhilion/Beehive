@@ -17,7 +17,7 @@ public class AvailableProperties {
 	 * property was replaced
 	 */
 	public static void addProperty(FieldProperty property) {
-		if (getProperty(property.name) != null) {
+		if (getProperty(property.getName()) != null) {
 			throw new IllegalArgumentException("A property using the same name exists.");
 		}
 		properties.add(property);
@@ -30,7 +30,7 @@ public class AvailableProperties {
 	 */
 	public static FieldProperty getProperty(String name) {
 		for (FieldProperty property : properties) {
-			if (property.name.equals(name)) {
+			if (property.getName().equals(name)) {
 				return property;
 			}
 		}

@@ -33,7 +33,7 @@ public class Field {
 	public double getProbability() {
 		double result = 1.0;
 		for (FieldProperty property: properties) {
-			result *= property.probability;
+			result *= property.getProbability();
 		}
 		return result;
 	}
