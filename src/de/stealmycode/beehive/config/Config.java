@@ -1,48 +1,26 @@
+/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package de.stealmycode.beehive.config;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileWriter;
-import java.io.IOException;
+import de.stealmycode.beehive.utils.Constants;
+import java.util.Map;
 
-import org.yaml.snakeyaml.Yaml;
-
-import de.stealmycode.beehive.utils.Logger;
-
-public class Config {
-	private Object data;
-	
-	public boolean load(String file) {
-		Object data = null;
-		try {
-			Yaml yaml = new Yaml();
-			data = yaml.load(new FileInputStream(file));
-			
-		} catch (FileNotFoundException e) {
-			Logger.loge("Not able to acces file " + file, e, this.getClass());
-		}
-		if (data == null) {
-			return false;
-		}
-		this.data = data;
-		return true;
-	}
-	
-	public boolean save(String file) {
-		try {
-			Yaml yaml = new Yaml();
-			FileWriter writer = new FileWriter(new File(file));
-			yaml.dump(data, writer);
-			writer.close();
-		} catch (IOException e) {
-			Logger.loge("Not able to write file " + file, e, this.getClass());
-			return false;
-		}
-		return true;
-	}
-	
-	protected Object getData() {
-	    return data;
+/**
+ *
+ * @author fate
+ */
+public class Config extends AbstractConfig {
+    public Map<String, Float> getFieldProperties(String difficulty) {
+        Map<String, Object> data = (Map<String, Object>) getData();
+        Map<String, Object> data_difficulties = (Map<String, Object>) data.get(difficulty);
+        return (Map<String, Float>) data_difficulties.get(Constants.CONFIG_FIELD_PROPERTIES);
+    }
+    
+    public Float getBaseProbability() {
+        Map<String, Object> data = (Map<String, Object>) getData();
+        Map<String, Object> data_global = (Map<String, Object>) data.get(Constants.CONFIG_GLOBAL);
+        return (Float) data_global.get(Constants.CONFIG_BASE_PROBABILITY);
     }
 }
