@@ -1,10 +1,11 @@
 package de.stealmycode.beehive.model.world;
 
-import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
 
 import de.stealmycode.beehive.model.world.animals.Critter;
+import de.stealmycode.beehive.model.world.animals.IMovable;
 import de.stealmycode.beehive.utils.Position;
 
 public class World implements IWorld {
@@ -13,13 +14,13 @@ public class World implements IWorld {
 	private int width = 200;
 	private int height = 200;
 	private Field[][] fields = null;
-	private List<Critter> critter = null;
+	private List<IMovable> movableList = null;
 	
 	public World(int width, int height) {
 		this.width = width;
 		this.height = height;
 		fields = new Field[width][height];
-		critter = new ArrayList<Critter>();
+		movableList = new LinkedList<IMovable>();
 	}
 
 	public int getWidth() {
@@ -51,4 +52,16 @@ public class World implements IWorld {
     public Field[][] getFields() {
         return fields;
     }
+
+	@Override
+	public void addMovableObject(IMovable movableObject) {		
+		movableList.add(movableObject);
+	}
+
+	@Override
+	public List<IMovable> getMovableList() {
+
+		return movableList;
+	}
+   
 }

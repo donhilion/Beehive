@@ -30,7 +30,7 @@ public class Map{
     public void addField(final Field field) {
         // Calculate some imageID depending on properties
 //        final int iID = chooseImageID(field.getProperties());
-        final int iID = 7;
+        final int iID = 0;
         
         drawables.add(new IDrawable() {
             
