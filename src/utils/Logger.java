@@ -8,6 +8,8 @@ package utils;
  */
 public class Logger {
 	
+	// TODO configuration
+	
 	/**
 	 * Private constructor. This is a static class only.
 	 */
@@ -19,7 +21,11 @@ public class Logger {
 	 * @param message Logmessage.
 	 * @param clazz Calling class.
 	 */
-	public static void logd(String message, Class<?> clazz) {}
+	public static void logd(String message, Class<?> clazz) {
+		String text = new StringBuilder("DEBUG: ").append(clazz.toString())
+				.append(": ").append(message).toString();
+		System.out.println(text);
+	}
 	
 	/**
 	 * Warning log.
@@ -27,7 +33,11 @@ public class Logger {
 	 * @param message Logmessage.
 	 * @param clazz Calling class.
 	 */
-	public static void logw(String message, Class<?> clazz) {}
+	public static void logw(String message, Class<?> clazz) {
+		String text = new StringBuilder("WARNING: ").append(clazz.toString())
+				.append(": ").append(message).toString();
+		System.out.println(text);
+	}
 	
 	/**
 	 * Error log.
@@ -35,6 +45,11 @@ public class Logger {
 	 * @param e Causing exception.
 	 * @param clazz Calling class.
 	 */
-	public static void loge(String message, Exception e, Class<?> clazz) {}
+	public static void loge(String message, Exception e, Class<?> clazz) {
+		String text = new StringBuilder("ERROR: ").append(clazz.toString())
+				.append(": ").append(message).append(": ")
+				.append(e.toString()).toString();
+		System.out.println(text);
+	}
 	
 }

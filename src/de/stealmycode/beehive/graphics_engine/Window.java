@@ -22,6 +22,8 @@ public class Window {
 	 */
 	private int height;
 	
+	private ImageManager imageManager;
+	
 	/**
 	 * Creates a new instance of this class with standard values.
 	 */
@@ -50,24 +52,17 @@ public class Window {
 	public boolean initialize() {
 		try {
 			Display.setDisplayMode(new DisplayMode(width, height));
+			Display.create();
+			
+//			Renderer renderer = new Renderer();
+//			renderer.init();
+			
+			imageManager = new ImageManager();
+			imageManager.loadImage("ressources/sprite_test.png");
+			imageManager.loadImageDescription("ressources/sprite_test_description.desc");
 			return true;
 		} catch (LWJGLException e) {
 			Logger.loge("Could not set display mode.", e, this.getClass());
-			return false;
-		}
-	}
-	
-	/**
-	 * Creates the window and shows it.
-	 * 
-	 * @return true if the creation was successful, else otherwise.
-	 */
-	public boolean createWindow() {
-		try {
-			Display.create();
-			return true;
-		} catch (LWJGLException e) {
-			Logger.loge("Could not create window.", e, this.getClass());
 			return false;
 		}
 	}
