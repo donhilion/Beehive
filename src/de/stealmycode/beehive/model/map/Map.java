@@ -4,7 +4,7 @@
  */
 package de.stealmycode.beehive.model.map;
 
-import de.stealmycode.beehive.interfaces.IDrawable;
+import de.stealmycode.beehive.model.world.IDrawable;
 import de.stealmycode.beehive.model.world.Field;
 import de.stealmycode.beehive.utils.Direction;
 import de.stealmycode.beehive.utils.Position;

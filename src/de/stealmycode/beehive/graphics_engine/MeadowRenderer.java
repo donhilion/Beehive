@@ -5,8 +5,8 @@ import java.util.List;
 import org.lwjgl.opengl.GL11;
 import org.newdawn.slick.Color;
 
-import de.stealmycode.beehive.interfaces.IDrawable;
-import de.stealmycode.beehive.interfaces.IMovable;
+import de.stealmycode.beehive.model.world.IDrawable;
+import de.stealmycode.beehive.model.world.animals.IMovable;
 
 /**
  * This renderer will render the meadow view.
