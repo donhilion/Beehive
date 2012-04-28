@@ -12,6 +12,8 @@ public class World implements IWorld {
 	private Field[][] fields = null;
 	
 	public World(int width, int height) {
+		this.width = width;
+		this.height = height;
 		fields = new Field[width][height];
 	}
 
