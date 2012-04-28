@@ -1,8 +1,10 @@
 package de.stealmycode.beehive.model.world;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import de.stealmycode.beehive.model.world.animals.Critter;
 import de.stealmycode.beehive.utils.Position;
 
 public class World implements IWorld {
@@ -11,11 +13,13 @@ public class World implements IWorld {
 	private int width = 200;
 	private int height = 200;
 	private Field[][] fields = null;
+	private List<Critter> critter = null;
 	
 	public World(int width, int height) {
 		this.width = width;
 		this.height = height;
 		fields = new Field[width][height];
+		critter = new ArrayList<Critter>();
 	}
 
 	public int getWidth() {
