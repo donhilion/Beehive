@@ -54,8 +54,8 @@ public class Window {
 			Display.setDisplayMode(new DisplayMode(width, height));
 			Display.create();
 			
-//			Renderer renderer = new Renderer();
-//			renderer.init();
+			Renderer renderer = new Renderer();
+			renderer.init(width, height);
 			
 			imageManager = new ImageManager();
 			imageManager.loadImage("ressources/sprite_test.png");
