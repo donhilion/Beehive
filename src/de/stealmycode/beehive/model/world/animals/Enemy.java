@@ -3,7 +3,7 @@ package de.stealmycode.beehive.model.world.animals;
 import de.stealmycode.beehive.utils.Direction;
 import de.stealmycode.beehive.utils.Position;
 
-public class Warrior implements IMovable{
+public class Enemy implements IMovable{
 
     @Override
     public float getProgress() {
