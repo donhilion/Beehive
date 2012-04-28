@@ -1,0 +1,14 @@
+Properties:
+  Base: 0.1
+  Hard:
+    flowerable: 1
+    walkable:   8
+    flyable:    9
+  Medium:
+    flowerable: 2
+    walkable:   8
+    flyable:    9
+  Easy:
+    flowerable: 3
+    walkable:   8
+    flyable:    9
