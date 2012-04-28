@@ -5,8 +5,8 @@ import java.util.List;
 import org.lwjgl.opengl.GL11;
 import org.newdawn.slick.Color;
 
-import de.stealmycode.beehive.interfaces.IDrawable;
-import de.stealmycode.beehive.interfaces.IMovable;
+import de.stealmycode.beehive.model.world.IDrawable;
+import de.stealmycode.beehive.model.world.animals.IMovable;
 
 /**
  * This renderer will render the meadow view.
@@ -166,7 +166,7 @@ public class MeadowRenderer {
 					+0.5f*(1+(float)(object.getPosition().getX() % 2)));
 			
 			float angle = 0.0f;
-			switch(object.geDirection()) {
+			switch(object.getDirection()) {
 			case SOUTH_WEST:
 				angle = -ANGLE_60;
 			case NORT_WEST:
@@ -199,7 +199,7 @@ public class MeadowRenderer {
 					+0.5f*(1+(float)(object.getPosition().getX() % 2)));
 			
 			float angle = 0.0f;
-			switch(object.geDirection()) {
+			switch(object.getDirection()) {
 			case SOUTH_WEST:
 				angle = -ANGLE_60;
 			case NORT_WEST:

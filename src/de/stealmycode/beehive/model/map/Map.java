@@ -4,7 +4,7 @@
  */
 package de.stealmycode.beehive.model.map;
 
-import de.stealmycode.beehive.interfaces.IDrawable;
+import de.stealmycode.beehive.model.world.IDrawable;
 import de.stealmycode.beehive.model.world.Field;
 import de.stealmycode.beehive.utils.Direction;
 import de.stealmycode.beehive.utils.Position;
@@ -30,7 +30,7 @@ public class Map{
     public void addField(final Field field) {
         // Calculate some imageID depending on properties
 //        final int iID = chooseImageID(field.getProperties());
-        final int iID = 7;
+        final int iID = 0;
         
         drawables.add(new IDrawable() {
             
@@ -44,7 +44,7 @@ public class Map{
             }
 
             @Override
-            public Direction geDirection() {
+            public Direction getDirection() {
                 return direction;
             }
 

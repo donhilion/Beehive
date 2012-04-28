@@ -1,5 +1,19 @@
 package de.stealmycode.beehive.model.world.animals;
 
-public class Bee extends Critter {
+import de.stealmycode.beehive.utils.Direction;
+import de.stealmycode.beehive.utils.Position;
+
+public class Bee extends Critter{
+
+	public Bee(Direction direction, 
+			   int imageID,
+			   int attackValue,
+			   int defenceValue,
+			   Position position) {
+		super(direction, imageID, attackValue, defenceValue, position);
+		// TODO Auto-generated constructor stub
+	}
+
+
 
 }

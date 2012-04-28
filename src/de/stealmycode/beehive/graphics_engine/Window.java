@@ -6,8 +6,8 @@ import org.lwjgl.LWJGLException;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
 
-import de.stealmycode.beehive.interfaces.IDrawable;
-import de.stealmycode.beehive.interfaces.IMovable;
+import de.stealmycode.beehive.model.world.IDrawable;
+import de.stealmycode.beehive.model.world.animals.IMovable;
 import de.stealmycode.beehive.utils.Logger;
 
 

@@ -6,6 +6,9 @@ import de.stealmycode.beehive.model.map.MapGenerator;
 import de.stealmycode.beehive.model.world.AvailableProperties;
 import de.stealmycode.beehive.model.world.FieldProperty;
 import de.stealmycode.beehive.model.world.World;
+import de.stealmycode.beehive.model.world.animals.Bee;
+import de.stealmycode.beehive.utils.Direction;
+import de.stealmycode.beehive.utils.Position;
 
 public class Beehive {
 
@@ -22,13 +25,17 @@ public class Beehive {
         MapGenerator gen = MapGenerator.getInstance();
         Map map = gen.generate(world);
         
+        Bee bee = new Bee(Direction.NORT_WEST, 1, 1, 1, new Position(10, 10));
         
+        world.addMovableObject(bee);
         
 
         Window window = new Window();
         window.initialize();
         
         window.setStaticObjects(map.getDrawables());
+        
+        window.setDynamicObjects(world.getMovableList());
 
         while(!window.isCloseRequested()) {
                 window.render();
