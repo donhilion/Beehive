@@ -1,11 +1,11 @@
 package de.stealmycode.beehive.model.world;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
 
 public class AvailableProperties {
 	
-	private static Map<String, FieldProperty> properties = new HashMap<String, FieldProperty>();
+	private static List<FieldProperty> properties = new ArrayList<FieldProperty>();
 
 	private AvailableProperties() { }
 	
@@ -16,9 +16,32 @@ public class AvailableProperties {
 	 * @throws IllegalArgumentException if a property using the same name was added earlier
 	 * property was replaced
 	 */
-	public void addProperty(String name, FieldProperty property) {
-		if (properties.put(name, property) != null) {
-			throw new IllegalArgumentException();
+	public static void addProperty(FieldProperty property) {
+		if (getProperty(property.name) != null) {
+			throw new IllegalArgumentException("A property using the same name exists.");
 		}
+		properties.add(property);
+	}
+	
+	/**
+	 * 
+	 * @param name
+	 * @return
+	 */
+	public static FieldProperty getProperty(String name) {
+		for (FieldProperty property : properties) {
+			if (property.name.equals(name)) {
+				return property;
+			}
+		}
+		return null;
+	}
+	
+	/**
+	 * 
+	 * @return
+	 */
+	public static List<FieldProperty> getProperties() {
+		return properties;
 	}
 }
