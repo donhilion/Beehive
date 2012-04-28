@@ -1,7 +1,7 @@
-package de.stealmycode.beehive.controller.interfaces;
+package de.stealmycode.beehive.interfaces;
 
 import de.stealmycode.beehive.model.world.Position;
-import utils.Direction;
+import de.stealmycode.beehive.utils.Direction;
 
 /**
  * Interface for all objects that has to be drawn to the
@@ -10,7 +10,7 @@ import utils.Direction;
  * @author Shadowrunner
  *
  */
-public interface IMotion {
+public interface IMovable {
 
 	
 	/**

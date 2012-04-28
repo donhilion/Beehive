@@ -12,7 +12,8 @@ import org.newdawn.slick.opengl.Texture;
 import org.newdawn.slick.opengl.TextureLoader;
 import org.newdawn.slick.util.ResourceLoader;
 
-import utils.Logger;
+import de.stealmycode.beehive.utils.Logger;
+
 
 /**
  * This class loads the images containing the sprites
