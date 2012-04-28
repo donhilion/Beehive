@@ -212,6 +212,10 @@ public class MeadowRenderer {
 				angle = (float)(2.0f*Math.PI);
 			}
 			
+			x -= object.getProgress()*0.75f*sizeOfComb*Math.sin(angle);
+			y += object.getProgress()*SIN_60*sizeOfComb*Math.sin(angle);
+			
+			
 			drawSprite(sprite, x, y, angle);
 		}
 	}
