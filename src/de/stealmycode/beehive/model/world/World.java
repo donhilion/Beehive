@@ -1,5 +1,6 @@
 package de.stealmycode.beehive.model.world;
 
+import java.util.List;
 import java.util.Random;
 
 import de.stealmycode.beehive.utils.Position;
@@ -27,10 +28,13 @@ public class World implements IWorld {
 	
 	public void generateWorld() {
 		Random r = new Random();
+		List<FieldProperty> properties = AvailableProperties.getProperties();
+		
 		for (int x = 0; x < width; x++) {
 			for (int y = 0; y < height; y++) {
 				fields[x][y] = new Field(new Position(x, y));
-				for (FieldProperty property : AvailableProperties.getProperties()) {
+
+				for (FieldProperty property : properties) {
 					if (r.nextFloat() <= DEF_PROBABILITY * property.getProbability()) {
 						fields[x][y].addProperty(property.clone());
 					}
