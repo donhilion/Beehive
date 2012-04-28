@@ -10,5 +10,6 @@
 	</classpathentry>
 	<classpathentry kind="lib" path="libs/jar/slick-util.jar"/>
 	<classpathentry kind="lib" path="libs/jar/slick.jar"/>
+	<classpathentry kind="lib" path="libs/jar/snakeyaml-1.10.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
