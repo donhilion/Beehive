@@ -21,6 +21,8 @@ public interface IMovable extends IDrawable {
 	 */
 	public float getProgress();	
 	
+	public void setProgress(float progress);
+	
 	/**
 	 * Method to set a position where the Object has to move to 
 	 * 

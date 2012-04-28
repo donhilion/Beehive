@@ -93,6 +93,7 @@ public class Critter implements IMovable {
 		return progress;
 	}
 	
+	@Override
 	public void setProgress(float progress)
 	{
 		this.progress = progress;

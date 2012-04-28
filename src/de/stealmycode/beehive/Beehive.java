@@ -25,7 +25,7 @@ public class Beehive {
         MapGenerator gen = MapGenerator.getInstance();
         Map map = gen.generate(world);
         
-        Bee bee = new Bee(Direction.NORT_WEST, 1, 1, 1, new Position(10, 10));
+        Bee bee = new Bee(Direction.NORTH_EAST, 1, 1, 1, new Position(10, 9));
         
         world.addMovableObject(bee);
         
@@ -36,18 +36,25 @@ public class Beehive {
         window.setStaticObjects(map.getDrawables());
         
         window.setDynamicObjects(world.getMovableList());
+        
+        
+		while(!window.isCloseRequested()) {
+			window.render();
 
-        while(!window.isCloseRequested()) {
-                window.render();
+			try {
+				Thread.sleep(100);
 
-                try {
-                        Thread.sleep(100);
-                } catch (InterruptedException e) {
-                        // TODO Auto-generated catch block
-                        e.printStackTrace();
-                }
-        }
+				float progress = world.getMovableList().get(0).getProgress();
+				world.getMovableList().get(0).setProgress(progress + 0.1f);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 
-        window.closeWindow();
+		window.closeWindow();
+        
+
+
     }
 }
