@@ -1,7 +1,7 @@
 package de.stealmycode.beehive.interfaces;
 
 import de.stealmycode.beehive.model.world.Position;
-import utils.Direction;
+import de.stealmycode.beehive.utils.Direction;
 
 /**
  * Interface for all objects that has to be drawn to the
