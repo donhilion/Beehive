@@ -168,7 +168,7 @@ public class MeadowRenderer {
 					+0.5f*(1+(float)(object.getPosition().getX() % 2)));
 			
 			float angle = 0.0f;
-			switch(object.geDirection()) {
+			switch(object.getDirection()) {
 			case SOUTH_WEST:
 				angle = -ANGLE_60;
 			case NORT_WEST:
@@ -201,7 +201,7 @@ public class MeadowRenderer {
 					+0.5f*(1+(float)(object.getPosition().getX() % 2)));
 			
 			float angle = 0.0f;
-			switch(object.geDirection()) {
+			switch(object.getDirection()) {
 			case SOUTH_WEST:
 				angle = -ANGLE_60;
 			case NORT_WEST:

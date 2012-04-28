@@ -44,7 +44,7 @@ public class Map{
             }
 
             @Override
-            public Direction geDirection() {
+            public Direction getDirection() {
                 return direction;
             }
 

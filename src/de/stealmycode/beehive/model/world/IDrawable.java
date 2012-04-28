@@ -14,7 +14,7 @@ public interface IDrawable {
 	 * 
 	 * @return The direction to draw the object in
 	 */
-	public Direction geDirection();
+	public Direction getDirection();
 	
 	/**
 	 * 
