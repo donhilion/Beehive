@@ -186,7 +186,7 @@ public class MeadowRenderer {
 	}
 	
 	private void renderDynamics() {
-		if(staticObjects == null) {
+		if(dynamicObjects == null) {
 			return;
 		}
 		
