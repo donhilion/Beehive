@@ -1,8 +1,10 @@
 package de.stealmycode.beehive.config;
 
 import de.stealmycode.beehive.utils.Constants;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 public class GraphicsConfig extends AbstractConfig {
 
@@ -25,5 +27,20 @@ public class GraphicsConfig extends AbstractConfig {
 
     public String getTexture(int i) {
         return getTextures().get(i);
+    }
+
+    public List<Integer> getSpriteIDs() {
+        Map<Integer, Object> dataImages = getImages();
+        Set<Integer> spriteSet = dataImages.keySet();
+        List<Integer> spriteIDs = new LinkedList<Integer>();
+
+        Object[] spriteSetArr = spriteSet.toArray();
+        
+        for(int i = 0; i < spriteSet.size(); i++) {
+            spriteIDs.add(new Integer((Integer) 
+                    spriteSet.toArray()[i]));
+        }
+        
+        return spriteIDs;
     }
 }

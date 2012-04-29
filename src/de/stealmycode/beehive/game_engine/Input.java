@@ -7,6 +7,7 @@ import de.stealmycode.beehive.model.world.World;
 import de.stealmycode.beehive.model.world.animals.IMovable;
 import de.stealmycode.beehive.utils.Constants;
 import de.stealmycode.beehive.utils.Position;
+import de.stealmycode.beehive.utils.Log;
 
 public class Input {
 	
@@ -52,11 +53,12 @@ public class Input {
 		if(mouseInfo.isLeftButtonDown() && !leftButtonPressed)
 		{
 			leftButtonPressed = true;
-			System.out.println("Left Button Pressed -- X: " + mouseInfo.getX() + " --- Y: " + mouseInfo.getY());
+			Log.debug("Left Button Pressed -- X: " + mouseInfo.getX() + " --- Y: " + mouseInfo.getY());
 			
 			Position mousePosition = getCombPosition(mouseInfo.getX(), mouseInfo.getY());
-			
-			System.out.println("Comb -- X: " + mousePosition.getX() + " --- Y: " + mousePosition.getY());
+			Log.debug("Comb -- X: " + mousePosition.getX() + " --- Y: " + mousePosition.getY());
+
+
 			
 //			List<IMovable> list = world.getMovables();
 //			
@@ -72,7 +74,7 @@ public class Input {
 		}else if(!mouseInfo.isLeftButtonDown() && leftButtonPressed)
 		{
 			leftButtonPressed = false;
-//			System.out.println("Left Button Released");
+			Log.debug("Left Button Released");
 		}
 	}
 
