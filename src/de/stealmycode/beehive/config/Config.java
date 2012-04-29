@@ -5,7 +5,10 @@
 package de.stealmycode.beehive.config;
 
 import de.stealmycode.beehive.utils.Constants;
+import de.stealmycode.beehive.utils.Lvl;
+
 import java.util.Map;
+import java.util.logging.Level;
 
 /**
  *
@@ -23,4 +26,16 @@ public class Config extends AbstractConfig {
         Map<String, Object> data_global = (Map<String, Object>) data.get(Constants.CONFIG_GLOBAL);
         return (Float) data_global.get(Constants.CONFIG_BASE_PROBABILITY);
     }
+    
+    public Level getGlobalLogLevel() {
+        Map<String, Object> data = (Map<String, Object>) getData();
+        Map<String, Object> data_global = (Map<String, Object>) data.get(Constants.CONFIG_GLOBAL);
+        return Lvl.parse((String) data_global.get(Constants.CONFIG_LOGLEVELGLOBAL));     
+    }
+
+    public Level getBeehiveLogLevel() {
+        Map<String, Object> data = (Map<String, Object>) getData();
+        Map<String, Object> data_global = (Map<String, Object>) data.get(Constants.CONFIG_GLOBAL);
+        return Lvl.parse((String) data_global.get(Constants.CONFIG_LOGLEVELBEEHIVE));
+    }   
 }

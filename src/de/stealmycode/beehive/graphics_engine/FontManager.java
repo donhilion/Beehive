@@ -4,7 +4,7 @@ import java.awt.Color;
 import org.newdawn.slick.UnicodeFont;
 import org.newdawn.slick.font.effects.ColorEffect;
 
-import de.stealmycode.beehive.utils.Logger;
+import de.stealmycode.beehive.utils.Log;
 
 public class FontManager {
 	String fancyPath = "ressources/MysteryQuest-Regular.ttf";
@@ -19,7 +19,7 @@ public class FontManager {
 			fancy.loadGlyphs();  //Load Glyphs
 			return true;
 		} catch (Exception e) {
-				Logger.loge("Could not load fancy Font", e, this.getClass());
+				Log.error("Could not load fancy Font");
 				return false;
 			}
 		}
@@ -33,7 +33,7 @@ public class FontManager {
 			uncomplicated.loadGlyphs();  //Load Glyphs
 			return true;
 		} catch (Exception e) {
-				Logger.loge("Could not load uncomplicated Font", e, this.getClass());
+				Log.error("Could not load uncomplicated Font");
 				return false;
 			}
 		}

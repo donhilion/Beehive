@@ -8,7 +8,7 @@ import java.io.IOException;
 
 import org.yaml.snakeyaml.Yaml;
 
-import de.stealmycode.beehive.utils.Logger;
+import de.stealmycode.beehive.utils.Log;
 
 public abstract class AbstractConfig {
 	private Object data;
@@ -20,7 +20,7 @@ public abstract class AbstractConfig {
 			data = yaml.load(new FileInputStream(file));
 			
 		} catch (FileNotFoundException e) {
-			Logger.loge("Not able to acces file " + file, e, this.getClass());
+		    Log.error("Not able to acces file \"" + file+ "\". File not found");
 		}
 		if (data == null) {
 			return false;
@@ -36,7 +36,7 @@ public abstract class AbstractConfig {
 			yaml.dump(data, writer);
 			writer.close();
 		} catch (IOException e) {
-			Logger.loge("Not able to write file " + file, e, this.getClass());
+		    Log.error("Not able to write file " + file);
 			return false;
 		}
 		return true;

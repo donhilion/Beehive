@@ -1,5 +1,7 @@
 Global:
   BaseProbability: 0.1
+  LogLevelGlobal: ALL    # Possible Values:  ALL, DEBUG, INFORMATION, WARNING, ERROR, NONE
+  LogLevelBeehive: DEBUG   # Possible Values:  ALL, DEBUG, INFORMATION, WARNING, ERROR, NONE
 Hard:
   FieldProperties:
     flowerable: 1
