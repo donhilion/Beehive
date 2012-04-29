@@ -1,19 +1,30 @@
 package de.stealmycode.beehive.model.world.animals;
 
-import de.stealmycode.beehive.utils.Direction;
 import de.stealmycode.beehive.utils.Position;
 
-public class Bee extends Critter{
+public class Bee extends AbstractMovableObject {
 
-	public Bee(Direction direction, 
-			   int imageID,
-			   int attackValue,
-			   int defenceValue,
-			   Position position) {
-		super(direction, imageID, attackValue, defenceValue, position);
-		// TODO Auto-generated constructor stub
-	}
+    public Bee(Position position) {
+        super(position);
+    }
 
+    @Override
+    public int getAttack() {
+        return 1;
+    }
 
+    @Override
+    public int getDefense() {
+        return 1;
+    }
 
+    @Override
+    public int getHealth() {
+        return 1;
+    }
+
+    @Override
+    public int getImageID() {
+        return 37;
+    }
 }

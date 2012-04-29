@@ -7,6 +7,7 @@ import org.newdawn.slick.Color;
 
 import de.stealmycode.beehive.model.world.IDrawable;
 import de.stealmycode.beehive.model.world.animals.IMovable;
+import de.stealmycode.beehive.utils.Constants;
 import de.stealmycode.beehive.utils.Direction;
 
 /**
@@ -40,7 +41,7 @@ public class MeadowRenderer implements IRenderer {
 	/**
 	 * The size of on comb. This is equal to the width of the comb.
 	 */
-	private int sizeOfComb = 50;
+	private int sizeOfComb = Constants.SIZE_OF_COMB;
 	/**
 	 * Count of the combs in x-direction.
 	 */
@@ -211,7 +212,7 @@ public class MeadowRenderer implements IRenderer {
 			
 			float angle = getAngleForDirection(object.getDirection());
 			
-			System.out.println(angle/Math.PI);
+//			System.out.println(angle/Math.PI);
 			
 			x -= object.getProgress()*0.75f*sizeOfComb*Math.sin(angle);
 			y += object.getProgress()*SIN_60*sizeOfComb*Math.cos(angle);

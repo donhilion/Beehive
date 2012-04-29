@@ -1,19 +1,11 @@
 package de.stealmycode.beehive.model.world.animals;
 
-import de.stealmycode.beehive.utils.Direction;
 import de.stealmycode.beehive.utils.Position;
 
-public class Enemy extends Critter{
+public abstract class Enemy extends AbstractMovableObject {
 
-	public Enemy(Direction direction, 
-				int imageID, 
-				int attackValue,
-				int defenceValue,
-				Position position) {
-		super(direction, imageID, attackValue, defenceValue, position);
-		// TODO Auto-generated constructor stub
-	}
-
-
-
+    public Enemy(Position position) {
+        super(position);
+        // TODO Auto-generated constructor stub
+    }
 }

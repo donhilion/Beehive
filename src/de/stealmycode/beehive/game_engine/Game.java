@@ -31,6 +31,7 @@ public class Game {
     private AvailableProperties availableProperties;
     private World               world;
     private Map                 map;
+    private Input				input;
 
     /**
      * 
@@ -41,6 +42,7 @@ public class Game {
         
         world = new World(width, height);
         world.generateWorld(availableProperties);
+        input = new Input(world);
         map = MapGenerator.getInstance().generate(world);
         map.addDrawable(new Hive(new Position(width/2, height/2)));
         map.addDrawable(new IDrawable() {
@@ -62,6 +64,10 @@ public class Game {
 				return Direction.SOUTH;
 			}
 		});
+        
+        world.addMovableObject(new Bee(new Position(3, 3)));
+        
+        
 //        map.addDrawable(new IDrawable() {
 //        	
 //        	Position position = new Position(11, 10);
@@ -117,11 +123,12 @@ public class Game {
         	do {
         		kEvent = window.getNextKeyboardEvent();
         	} while(kEvent != null);
-        	window.getMouseInfo();
+        	
+        	input.registerMouseEvent(window.getMouseInfo());
         	// ^ needed to enable scrolling ^
             window.render();
             try {
-                Thread.sleep(100/6);
+                Thread.sleep(100/2);
 
 //                float progress = world.getMovables().get(0).getProgress();
 //                world.getMovables().get(0).setProgress(progress + 0.1f);

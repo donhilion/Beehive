@@ -11,6 +11,10 @@ package de.stealmycode.beehive.utils;
 public final class Constants {
     private Constants(){}
     
+    
+    // Constant for comb-width and height
+    public static final int SIZE_OF_COMB = 50;
+    
     // Constants for difficulty level
     public static final String DIFFICULTY_HARD      = "Hard";
     public static final String DIFFICULTY_MEDIUM    = "Medium";
