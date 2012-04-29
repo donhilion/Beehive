@@ -12,8 +12,9 @@ public final class Constants {
     private Constants(){}
     
     
-    // Constant for comb-width and height
+    // Constant for the renderer
     public static final int SIZE_OF_COMB = 50;
+    public static final float SIN_60 = 0.866025404f;
     
     // Constants for difficulty level
     public static final String DIFFICULTY_HARD      = "Hard";

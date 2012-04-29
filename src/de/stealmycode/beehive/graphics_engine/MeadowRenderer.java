@@ -24,9 +24,7 @@ public class MeadowRenderer implements IRenderer {
 	private static final int BACKGROUND_ID = 0;
 	
 	private static final float DIV_SQRT_2 = (float) (1.0 / Math.sqrt(2.0));
-	
-	private static final float SIN_60 = 0.866025404f;
-	
+		
 	private static final float ANGLE_60 = (float)(Math.PI/3.0f);
 	
 	/**
@@ -49,7 +47,7 @@ public class MeadowRenderer implements IRenderer {
 	/**
 	 * Count of the combs in y-direction.
 	 */
-	private int combCountY = 18;
+	private int combCountY = 13;
 	
 	private int width;
 	private int height;
@@ -146,28 +144,28 @@ public class MeadowRenderer implements IRenderer {
 			for(int y=0; y<combCountY; y++) {
 				GL11.glBegin(GL11.GL_LINE_LOOP);
 				GL11.glVertex2f(x*sizeOfComb*0.75f,
-						height-(y*sizeOfComb*SIN_60
-								+sizeOfComb*0.5f*(1+SIN_60*(float)(x%2))));
+						height-(y*sizeOfComb*Constants.SIN_60
+								+sizeOfComb*0.5f*(1+Constants.SIN_60*(float)(x%2))));
 				
 				GL11.glVertex2f(x*sizeOfComb*0.75f+sizeOfComb*0.25f,
-						height-(y*sizeOfComb*SIN_60
-								+sizeOfComb*0.5f*(1-SIN_60+SIN_60*(float)(x%2))));
+						height-(y*sizeOfComb*Constants.SIN_60
+								+sizeOfComb*0.5f*(1-Constants.SIN_60+Constants.SIN_60*(float)(x%2))));
 				
 				GL11.glVertex2f(x*sizeOfComb*0.75f+sizeOfComb*0.75f,
-						height-(y*sizeOfComb*SIN_60
-								+sizeOfComb*0.5f*(1-SIN_60+SIN_60*(float)(x%2))));
+						height-(y*sizeOfComb*Constants.SIN_60
+								+sizeOfComb*0.5f*(1-Constants.SIN_60+Constants.SIN_60*(float)(x%2))));
 				
 				GL11.glVertex2f(x*sizeOfComb*0.75f+sizeOfComb,
-						height-(y*sizeOfComb*SIN_60
-								+sizeOfComb*0.5f*(1+SIN_60*(float)(x%2))));
+						height-(y*sizeOfComb*Constants.SIN_60
+								+sizeOfComb*0.5f*(1+Constants.SIN_60*(float)(x%2))));
 				
 				GL11.glVertex2f(x*sizeOfComb*0.75f+sizeOfComb*0.75f,
-						height-(y*sizeOfComb*SIN_60
-								+sizeOfComb*0.5f*(1+SIN_60+SIN_60*(float)(x%2))));
+						height-(y*sizeOfComb*Constants.SIN_60
+								+sizeOfComb*0.5f*(1+Constants.SIN_60+Constants.SIN_60*(float)(x%2))));
 				
 				GL11.glVertex2f(x*sizeOfComb*0.75f+sizeOfComb*0.25f,
-						height-(y*sizeOfComb*SIN_60
-								+sizeOfComb*0.5f*(1+SIN_60+SIN_60*(float)(x%2))));
+						height-(y*sizeOfComb*Constants.SIN_60
+								+sizeOfComb*0.5f*(1+Constants.SIN_60+Constants.SIN_60*(float)(x%2))));
 				
 				GL11.glEnd();
 			}
@@ -186,7 +184,7 @@ public class MeadowRenderer implements IRenderer {
 			sprite.texture.bind();
 			
 			float x = sizeOfComb*(0.75f*(float)(object.getPosition().getX())+0.5f);
-			float y = height-sizeOfComb*(SIN_60*(float)(object.getPosition().getY())
+			float y = height-sizeOfComb*(Constants.SIN_60*(float)(object.getPosition().getY())
 					+0.5f*(1+(float)(object.getPosition().getX() % 2)));
 			
 			float angle = getAngleForDirection(object.getDirection());
@@ -207,7 +205,7 @@ public class MeadowRenderer implements IRenderer {
 			sprite.texture.bind();
 			
 			float x = sizeOfComb*(0.75f*(float)(object.getPosition().getX())+0.5f);
-			float y = height-sizeOfComb*(SIN_60*(float)(object.getPosition().getY())
+			float y = height-sizeOfComb*(Constants.SIN_60*(float)(object.getPosition().getY())
 					+0.5f*(1+(float)(object.getPosition().getX() % 2)));
 			
 			float angle = getAngleForDirection(object.getDirection());
@@ -215,7 +213,7 @@ public class MeadowRenderer implements IRenderer {
 //			System.out.println(angle/Math.PI);
 			
 			x -= object.getProgress()*0.75f*sizeOfComb*Math.sin(angle);
-			y += object.getProgress()*SIN_60*sizeOfComb*Math.cos(angle);
+			y += object.getProgress()*Constants.SIN_60*sizeOfComb*Math.cos(angle);
 			
 			
 			drawSprite(sprite, x, y, angle, false);

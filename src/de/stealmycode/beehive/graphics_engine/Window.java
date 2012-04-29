@@ -64,6 +64,7 @@ public class Window {
 		try {
 			Display.setDisplayMode(new DisplayMode(width, height));
 			
+			
 			Display.create();
 			Display.setVSyncEnabled(true); // seems not to work
 			
