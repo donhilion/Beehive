@@ -4,19 +4,16 @@
  */
 package de.stealmycode.beehive.model.world;
 
-import de.stealmycode.beehive.utils.Direction;
 import de.stealmycode.beehive.utils.Position;
 
 /**
  *
  * @author fate
  */
-public class Hive implements IDrawable {
-
-    private Position position;
+public class Hive extends AbstractDrawableObject implements IAttackable {
 
     public Hive(Position position) {
-        this.position = position;
+        super(position);
     }
     
     @Override
@@ -25,12 +22,17 @@ public class Hive implements IDrawable {
     }
 
     @Override
-    public Direction getDirection() {
-        return Direction.SOUTH;
+    public int getAttack() {
+        return 0;
     }
 
     @Override
-    public Position getPosition() {
-        return position;
+    public int getDefense() {
+        return 0;
+    }
+
+    @Override
+    public int getHealth() {
+        return 0;
     }
 }
