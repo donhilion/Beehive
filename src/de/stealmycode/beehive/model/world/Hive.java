@@ -18,7 +18,7 @@ public class Hive extends AbstractDrawableObject implements IAttackable {
     
     @Override
     public int getImageID() {
-        return 8;
+        return 27;
     }
 
     @Override

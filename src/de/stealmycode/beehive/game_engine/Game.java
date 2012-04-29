@@ -9,16 +9,11 @@ import de.stealmycode.beehive.graphics_engine.KeyboardEvent;
 import de.stealmycode.beehive.graphics_engine.Window;
 import de.stealmycode.beehive.model.map.Map;
 import de.stealmycode.beehive.model.map.MapGenerator;
-import de.stealmycode.beehive.model.world.AvailableProperties;
-import de.stealmycode.beehive.model.world.FieldProperty;
-import de.stealmycode.beehive.model.world.Hive;
-import de.stealmycode.beehive.model.world.IDrawable;
-import de.stealmycode.beehive.model.world.World;
+import de.stealmycode.beehive.model.world.*;
 import de.stealmycode.beehive.model.world.animals.Bee;
 import de.stealmycode.beehive.utils.Direction;
 import de.stealmycode.beehive.utils.Position;
 import java.util.Map.Entry;
-import org.yaml.snakeyaml.scanner.Constant;
 
 /**
  *
@@ -45,56 +40,10 @@ public class Game {
         input = new Input(world);
         map = MapGenerator.getInstance().generate(world);
         map.addDrawable(new Hive(new Position(width/2, height/2)));
-        map.addDrawable(new IDrawable() {
-        	
-        	Position position = new Position(0, 0);
-			
-			@Override
-			public Position getPosition() {
-				return position;
-			}
-			
-			@Override
-			public int getImageID() {
-				return 20;
-			}
-			
-			@Override
-			public Direction getDirection() {
-				return Direction.SOUTH;
-			}
-		});
         
         Bee bee = new Bee(new Position(3, 3)); 
-        world.addMovableObject(bee);
-        
+        world.addMovableObject(bee);        
         bee.move(world, world.getField(new Position(19, 12)));
-        
-        
-//        map.addDrawable(new IDrawable() {
-//        	
-//        	Position position = new Position(11, 10);
-//			
-//			@Override
-//			public void setDirection(Direction direction) {
-//				
-//			}
-//			
-//			@Override
-//			public Position getPosition() {
-//				return position;
-//			}
-//			
-//			@Override
-//			public int getImageID() {
-//				return 21;
-//			}
-//			
-//			@Override
-//			public Direction getDirection() {
-//				return Direction.SOUTH;
-//			}
-//		});
     }
     
     public Game(String difficulty, World world, Map map) {
@@ -142,5 +91,28 @@ public class Game {
 
         window.closeWindow();
 
+    }
+
+    private void drawNudePics() {
+        for(int i = 1;i < 37; i++) {
+            final int j = i;
+            map.addDrawable(new IDrawable() {
+
+                @Override
+                public int getImageID() {
+                    return j;
+                }
+
+                @Override
+                public Direction getDirection() {
+                    return Direction.EAST;
+                }
+
+                @Override
+                public Position getPosition() {
+                    return new Position(j % 20, j < 20 ? 1 : 3);
+                }
+            });
+        }
     }
 }
