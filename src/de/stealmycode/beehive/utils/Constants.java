@@ -23,8 +23,7 @@ public final class Constants {
     // Constants for Configs
     public static final String CONFIG_GLOBAL                         = "Global";
     public static final String CONFIG_BASE_PROBABILITY               = "BaseProbability";
-    public static final String CONFIG_LOGLEVELGLOBAL                 = "LogLevelGlobal";
-    public static final String CONFIG_LOGLEVELBEEHIVE                = "LogLevelBeehive";
+    public static final String CONFIG_LOGLEVEL                       = "LogLevel";
     public static final String CONFIG_HARD                           = DIFFICULTY_HARD;
     public static final String CONFIG_MEDIUM                         = DIFFICULTY_MEDIUM;
     public static final String CONFIG_EASY                           = DIFFICULTY_EASY;

@@ -5,6 +5,7 @@ import java.util.List;
 import de.stealmycode.beehive.graphics_engine.MouseInfo;
 import de.stealmycode.beehive.model.world.World;
 import de.stealmycode.beehive.model.world.animals.IMovable;
+import de.stealmycode.beehive.utils.Log;
 
 public class Input {
 	
@@ -24,7 +25,7 @@ public class Input {
 		if(mouseInfo.isLeftButtonDown() && !leftButtonPressed)
 		{
 			leftButtonPressed = true;
-			System.out.println("Left Button Pressed -- X: " + mouseInfo.getX() + " --- Y: " + mouseInfo.getY());
+			Log.debug("Left Button Pressed -- X: " + mouseInfo.getX() + " --- Y: " + mouseInfo.getY());
 			
 //			List<IMovable> list = world.getMovables();
 //			
@@ -40,7 +41,7 @@ public class Input {
 		}else if(!mouseInfo.isLeftButtonDown() && leftButtonPressed)
 		{
 			leftButtonPressed = false;
-			System.out.println("Left Button Released");
+			Log.debug("Left Button Released");
 		}
 	}
 

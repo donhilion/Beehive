@@ -1,6 +1,7 @@
 package de.stealmycode.beehive.utils;
 
 import java.io.IOException;
+import java.util.logging.ConsoleHandler;
 import java.util.logging.FileHandler;
 import java.util.logging.Handler;
 import java.util.logging.Level;
@@ -18,18 +19,29 @@ public class Log {
 	
 	private final static String LOGGER_NAME		= "Beehive";
 	private final static Logger LOGGER_GLOBAL	= Logger.getLogger("");
-	private final static Logger LOGGER_BEEHIFE	= Logger.getLogger(LOGGER_NAME);
-	
 	
 	/**
 	 * Initialization befor loading config
 	 */
 	public static void preInit(){
-		LOGGER_GLOBAL.setLevel(Lvl.CONFIG);
-		LOGGER_BEEHIFE.setLevel(Lvl.ALL);
+
+	    LOGGER_GLOBAL.setLevel(Lvl.INFO);
+	    
+		// delete handler
+		for(Handler handler : LOGGER_GLOBAL.getHandlers()){
+            LOGGER_GLOBAL.removeHandler(handler);
+        } 
+		
+		Handler handler;
 		try {
-			Handler fh = new FileHandler(Constants.PATH_LOGFILE);
-			LOGGER_GLOBAL.addHandler(fh);
+		    // Handler for LOGGER_GLOBAL
+		    handler = new FileHandler(Constants.PATH_LOGFILE);
+            LOGGER_GLOBAL.addHandler(handler);
+            handler.setLevel(LOGGER_GLOBAL.getLevel());
+            
+            handler = new ConsoleHandler();
+            LOGGER_GLOBAL.addHandler(handler);
+            handler.setLevel(LOGGER_GLOBAL.getLevel());
 		} catch (SecurityException e) {
 			error("SecurityException: "+e);
 			System.exit(1);
@@ -43,14 +55,14 @@ public class Log {
 	 * Initialization after loading config
 	 */
 	public static void init(){
-		Log.debug("Switch to Config Settings");
+		Log.debug("Logger: Switch to Config Settings");
 		
 		Level globalLogLevel = Beehive.config.getGlobalLogLevel();
-		Level beehiveLogLevel= Beehive.config.getBeehiveLogLevel();
-		
 		LOGGER_GLOBAL.setLevel(globalLogLevel);
-		LOGGER_BEEHIFE.setLevel(beehiveLogLevel);
-		
+
+	    for(Handler handler : LOGGER_GLOBAL.getHandlers()){
+	        handler.setLevel(globalLogLevel);
+        }
 		Log.debug("Switch done");
 	}	
 
@@ -64,7 +76,7 @@ public class Log {
 	 * 
 	 * @param logger
 	 * @param level
-	 * @param msg
+	 * @param msgLvl
 	 */
 	private static void log(String logger, Level level, String msg){
 		int stackTraceLength = Thread.currentThread().getStackTrace().length-1;
