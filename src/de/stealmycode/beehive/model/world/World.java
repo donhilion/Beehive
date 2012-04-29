@@ -3,6 +3,8 @@ package de.stealmycode.beehive.model.world;
 import de.stealmycode.beehive.model.world.animals.IMovable;
 import de.stealmycode.beehive.utils.Direction;
 import de.stealmycode.beehive.utils.Position;
+
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
@@ -96,7 +98,7 @@ public class World {
      * 
      * @param field field used as origin
      * @param direction where to look for the neighbour
-     * @return null if there is no neighour, the neighbour otherwise
+     * @return null if there is no neighbour, the neighbour otherwise
      */
     public Field getNeighbourField(Field field, Direction direction) {
     	Position pos		= field.getPosition();
@@ -122,10 +124,22 @@ public class World {
     			newPos = new Position(pos.getX() - 1, pos.getY()+(pos.getX()%2));
     			break;
     	}
-    	if (newPos.getX() < 0 || newPos.getX() > width ||
-    		newPos.getY() < 0 || newPos.getY() > height) {
+    	if (newPos.getX() < 0 || newPos.getX() >= width ||
+    		newPos.getY() < 0 || newPos.getY() >= height) {
     		return null;
     	}
     	return getField(newPos);
+    }
+    
+    public List<Field> getNeighbourFields(Field field) {
+        List<Field> result = new ArrayList<Field>(6);
+        Field neighbour = null;
+        if ((neighbour = getNeighbourField(field, Direction.NORTH)) != null) result.add(neighbour);
+        if ((neighbour = getNeighbourField(field, Direction.NORTH_EAST)) != null) result.add(neighbour);
+        if ((neighbour = getNeighbourField(field, Direction.SOUTH_EAST)) != null) result.add(neighbour);
+        if ((neighbour = getNeighbourField(field, Direction.SOUTH)) != null) result.add(neighbour);
+        if ((neighbour = getNeighbourField(field, Direction.SOUTH_WEST)) != null) result.add(neighbour);
+        if ((neighbour = getNeighbourField(field, Direction.NORTH_WEST)) != null) result.add(neighbour);
+        return result;
     }
 }

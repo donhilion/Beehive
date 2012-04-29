@@ -10,6 +10,7 @@ import de.stealmycode.beehive.graphics_engine.Window;
 import de.stealmycode.beehive.model.map.Map;
 import de.stealmycode.beehive.model.map.MapGenerator;
 import de.stealmycode.beehive.model.world.*;
+import de.stealmycode.beehive.model.world.animals.Bee;
 import de.stealmycode.beehive.utils.Direction;
 import de.stealmycode.beehive.utils.Position;
 import java.util.Map.Entry;
@@ -39,7 +40,10 @@ public class Game {
         input = new Input(world);
         map = MapGenerator.getInstance().generate(world);
         map.addDrawable(new Hive(new Position(width/2, height/2)));
-//        drawNudePics();
+        
+        Bee bee = new Bee(new Position(3, 3)); 
+        world.addMovableObject(bee);        
+        bee.move(world, world.getField(new Position(19, 12)));
     }
     
     public Game(String difficulty, World world, Map map) {

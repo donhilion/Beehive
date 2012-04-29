@@ -1,7 +1,6 @@
 package de.stealmycode.beehive.model.world.animals;
 
 import de.stealmycode.beehive.model.world.IDrawable;
-import de.stealmycode.beehive.utils.Position;
 
 /**
  * Interface for all objects that has to be drawn to the

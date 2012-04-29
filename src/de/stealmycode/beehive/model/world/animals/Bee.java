@@ -27,4 +27,9 @@ public class Bee extends AbstractMovableObject {
     public int getImageID() {
         return 37;
     }
+
+    @Override
+    public String getAccessibleProperty() {
+        return "flyable";
+    }
 }
