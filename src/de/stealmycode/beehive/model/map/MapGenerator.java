@@ -5,7 +5,7 @@
 package de.stealmycode.beehive.model.map;
 
 import de.stealmycode.beehive.model.world.Field;
-import de.stealmycode.beehive.model.world.IWorld;
+import de.stealmycode.beehive.model.world.World;
 
 /**
  *
@@ -26,7 +26,7 @@ public class MapGenerator implements IMapGenerator {
     }
     
     @Override
-    public Map generate(IWorld world) {
+    public Map generate(World world) {
         Map map = new Map();
         Field[][] fields = world.getFields();
         

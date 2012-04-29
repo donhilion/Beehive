@@ -4,12 +4,12 @@
  */
 package de.stealmycode.beehive.model.map;
 
-import de.stealmycode.beehive.model.world.IWorld;
+import de.stealmycode.beehive.model.world.World;
 
 /**
  *
  * @author fate
  */
 public interface IMapGenerator {
-    public Map generate(IWorld world);
+    public Map generate(World world);
 }
