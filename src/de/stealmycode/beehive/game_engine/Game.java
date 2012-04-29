@@ -13,7 +13,6 @@ import de.stealmycode.beehive.model.world.*;
 import de.stealmycode.beehive.utils.Direction;
 import de.stealmycode.beehive.utils.Position;
 import java.util.Map.Entry;
-import java.util.Random;
 
 /**
  *
@@ -26,6 +25,7 @@ public class Game {
     private AvailableProperties availableProperties;
     private World               world;
     private Map                 map;
+    private Input				input;
 
     /**
      * 
@@ -36,28 +36,9 @@ public class Game {
         
         world = new World(width, height);
         world.generateWorld(availableProperties);
+        input = new Input(world);
         map = MapGenerator.getInstance().generate(world);
         map.addDrawable(new Hive(new Position(width/2, height/2)));
-//        map.addDrawable(new IDrawable() {
-//        	
-//        	Position position = new Position(0, 0);
-//			
-//			@Override
-//			public Position getPosition() {
-//				return position;
-//			}
-//			
-//			@Override
-//			public int getImageID() {
-//				return 1;
-//			}
-//			
-//			@Override
-//			public Direction getDirection() {
-//				return Direction.SOUTH;
-//			}
-//		});
-        
 //        drawNudePics();
     }
     
@@ -90,11 +71,12 @@ public class Game {
         	do {
         		kEvent = window.getNextKeyboardEvent();
         	} while(kEvent != null);
-        	window.getMouseInfo();
+        	
+        	input.registerMouseEvent(window.getMouseInfo());
         	// ^ needed to enable scrolling ^
             window.render();
             try {
-                Thread.sleep(100/6);
+                Thread.sleep(100/2);
 
 //                float progress = world.getMovables().get(0).getProgress();
 //                world.getMovables().get(0).setProgress(progress + 0.1f);

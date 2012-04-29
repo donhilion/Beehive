@@ -11,6 +11,10 @@ package de.stealmycode.beehive.utils;
 public final class Constants {
     private Constants(){}
     
+    
+    // Constant for comb-width and height
+    public static final int SIZE_OF_COMB = 50;
+    
     // Constants for difficulty level
     public static final String DIFFICULTY_HARD      = "Hard";
     public static final String DIFFICULTY_MEDIUM    = "Medium";
@@ -20,6 +24,7 @@ public final class Constants {
     public static final String CONFIG_GLOBAL                         = "Global";
     public static final String CONFIG_BASE_PROBABILITY               = "BaseProbability";
     public static final String CONFIG_BLACKLIST                      = "Blacklist";
+    public static final String CONFIG_LOGLEVEL                       = "LogLevel";
     public static final String CONFIG_HARD                           = DIFFICULTY_HARD;
     public static final String CONFIG_MEDIUM                         = DIFFICULTY_MEDIUM;
     public static final String CONFIG_EASY                           = DIFFICULTY_EASY;
@@ -31,6 +36,7 @@ public final class Constants {
     // Constants for Paths
     public final static String PATH_GRAPHICS_CONFIG                  = "config/graphics.yml";
     public final static String PATH_CONFIG                           = "config/config.yml";
+     public final static String PATH_LOGFILE                         = "LogFile.txt";
     
     // Constants for Keycodes
     public final static int KEYCODE_0 = 0;

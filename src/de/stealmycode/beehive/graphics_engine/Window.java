@@ -11,7 +11,7 @@ import org.lwjgl.opengl.DisplayMode;
 import de.stealmycode.beehive.model.world.IDrawable;
 import de.stealmycode.beehive.model.world.animals.IMovable;
 import de.stealmycode.beehive.utils.Constants;
-import de.stealmycode.beehive.utils.Logger;
+import de.stealmycode.beehive.utils.Log;
 
 
 /**
@@ -78,7 +78,7 @@ public class Window {
 			
 			return true;
 		} catch (LWJGLException e) {
-			Logger.loge("Could not set display mode.", e, this.getClass());
+			Log.error("Could not set display mode.");
 			return false;
 		}
 	}
