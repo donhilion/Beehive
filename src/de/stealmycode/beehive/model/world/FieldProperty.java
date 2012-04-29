@@ -1,6 +1,6 @@
 package de.stealmycode.beehive.model.world;
 
-public class FieldProperty {
+public class FieldProperty implements Cloneable {
 	private String name = "";
 	private float probability = 1.0f;
 	

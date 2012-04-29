@@ -21,7 +21,7 @@ public class Hive implements IDrawable {
     
     @Override
     public int getImageID() {
-        return 8;
+        return 27;
     }
 
     @Override

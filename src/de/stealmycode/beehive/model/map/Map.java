@@ -4,12 +4,17 @@
  */
 package de.stealmycode.beehive.model.map;
 
+import com.sun.xml.internal.bind.v2.runtime.reflect.opt.Const;
+import de.stealmycode.beehive.Beehive;
 import de.stealmycode.beehive.model.world.Field;
+import de.stealmycode.beehive.model.world.FieldProperty;
 import de.stealmycode.beehive.model.world.IDrawable;
 import de.stealmycode.beehive.utils.Direction;
 import de.stealmycode.beehive.utils.Position;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
+import java.util.Set;
 
 /**
  *
@@ -20,7 +25,7 @@ public class Map{
     private List<IDrawable> drawables = null;
 
     public Map() {
-        drawables = new ArrayList<>();
+        drawables = new ArrayList<IDrawable>();
     }
     
     public void addDrawable(IDrawable drawable) {
@@ -34,36 +39,46 @@ public class Map{
     public void addField(final Field field) {
         // Calculate some imageID depending on properties
 //        final int iID = chooseImageID(field.getProperties());
-        final int iID = 0;
+        final List<Integer> spriteIDs = Beehive.graphicsConfig.getSpriteIDs();
+        for(FieldProperty fp : field.getProperties()) {
+            List <Integer> fieldBlacklist = Beehive.config.getBlacklistFor(fp.getName());
+            for(Integer spriteID : fieldBlacklist) {
+                if (spriteIDs.contains(new Integer(spriteID))) {
+                    spriteIDs.remove(new Integer(spriteID));
+                }
+            }
+        }
         
-        drawables.add(new IDrawable() {
+//        System.out.println("LOL");
+
+        if (spriteIDs.toArray().length > 0) {
+            final int spriteID = (int) spriteIDs.toArray()[0];
+            final Random r = new Random();
+
+            drawables.add(new IDrawable() {
+                
+                private int sID = (int) spriteIDs.toArray()[r.nextInt(spriteIDs.toArray().length-1)];
+//                private Direction direction = Direction.NORTH;
+                private Position position = new Position(field.getPosition().getX(), field.getPosition().getY());
+                
+                @Override
+                public int getImageID() {
+                    return  sID;
+                }
+
+                @Override
+                public Direction getDirection() {
+                    return Direction.NORTH;
+                }
+
+                @Override
+                public Position getPosition() {
+                    return position;
+                }
+            });
             
-            private int imageID = iID;
-            private Direction direction = Direction.NORTH;
-            private Position position = field.getPosition();
+//            System.out.println("LOL");
 
-            @Override
-            public int getImageID() {
-                return imageID;
-            }
-
-            @Override
-            public Direction getDirection() {
-                return direction;
-            }
-
-            @Override
-            public Position getPosition() {
-                return position;
-            }
-        });
+        }
     }
-
-    @Override
-    public String toString() {
-        return "asd";
-//        return StringUtils.join(new String[] {"Hello", "World", "!"}, ", ");
-    }
-    
-    
 }
