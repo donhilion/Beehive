@@ -80,4 +80,9 @@ public final class Constants {
     public final static int KEYCODE_DOT = 27;
     public final static int KEYCODE_MINUS = 28;
     
+    public final static int KEYCODE_UP = 29;
+    public final static int KEYCODE_DOWN = 30;
+    public final static int KEYCODE_LEFT = 31;
+    public final static int KEYCODE_RIGHT = 32;
+    
 }

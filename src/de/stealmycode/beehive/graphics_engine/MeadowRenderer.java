@@ -15,7 +15,7 @@ import de.stealmycode.beehive.utils.Direction;
  * @author donhilion
  *
  */
-public class MeadowRenderer {
+public class MeadowRenderer implements IRenderer {
 	
 	/**
 	 * The id of the background image.
@@ -53,16 +53,21 @@ public class MeadowRenderer {
 	private int width;
 	private int height;
 	
+	private int camX = 0;
+	private int camY = 0;
+	
+	private int camDX = 0;
+	private int camDY = 0;
+	
+	private int scrollSpeed = 5;
+	
 	private ImageManager imageManager;
 	
 	public boolean init(int width, int height) {
 		this.width = width;
 		this.height = height;
 		
-		GL11.glMatrixMode(GL11.GL_PROJECTION);
-		GL11.glLoadIdentity();
-		GL11.glOrtho(0, width, 0, height, 1, -1);
-		GL11.glMatrixMode(GL11.GL_MODELVIEW);
+		setViewport();
 		
 		GL11.glEnable(GL11.GL_TEXTURE_2D);
 		GL11.glClearColor(0.0f, 0.0f, 0.0f, 0.0f); 
@@ -220,7 +225,12 @@ public class MeadowRenderer {
 		if(imageManager == null) {
 			return;
 		}
+		camX += camDX;
+		camY += camDY;
+		setViewport();
+		
 		GL11.glClear(GL11.GL_COLOR_BUFFER_BIT);
+		
 		renderBackground();
 		renderField();
 		renderStatics();
@@ -237,5 +247,22 @@ public class MeadowRenderer {
 	
 	public void setDynamicObjects(List<IMovable> list) {
 		dynamicObjects = list;
+	}
+
+	@Override
+	public void scrollX(int x) {
+		camDX = x * scrollSpeed;
+	}
+	
+	@Override
+	public void scrollY(int y) {
+		camDY = y * scrollSpeed;
+	}
+	
+	private void setViewport() {
+		GL11.glMatrixMode(GL11.GL_PROJECTION);
+		GL11.glLoadIdentity();
+		GL11.glOrtho(camX, width+camX, camY, height+camY, 1, -1);
+		GL11.glMatrixMode(GL11.GL_MODELVIEW);
 	}
 }

@@ -33,6 +33,8 @@ public class Window {
 	private ImageManager imageManager;
 	private MeadowRenderer meadowRenderer;
 	
+	private IRenderer currentRenderer;
+	
 	/**
 	 * Creates a new instance of this class with standard values.
 	 */
@@ -61,17 +63,18 @@ public class Window {
 	public boolean initialize() {
 		try {
 			Display.setDisplayMode(new DisplayMode(width, height));
+			
 			Display.create();
+			Display.setVSyncEnabled(true); // seems not to work
 			
 			meadowRenderer = new MeadowRenderer();
 			meadowRenderer.init(width, height);
 			
 			imageManager = new ImageManager();
-//			imageManager.loadImage("ressources", "texture_test_description.desc");
-//			imageManager.loadImageDescription("ressources/sprite_test_description.desc");
 			imageManager.loadConfig("config/graphics.yml");
 			
 			meadowRenderer.setImageRenderer(imageManager);
+			currentRenderer = meadowRenderer;
 			
 			return true;
 		} catch (LWJGLException e) {
@@ -100,10 +103,12 @@ public class Window {
 	 * Renders the objects.
 	 */
 	public void render() {
-		// TODO render images
-		meadowRenderer.draw();
+		if(currentRenderer != null) {
+			currentRenderer.draw();
+		}
 		
 		Display.update();
+		Display.sync(60); // seems not to work
 	}
 	
 	public void setStaticObjects(List<IDrawable> list) {
@@ -223,9 +228,22 @@ public class Window {
 				return new KeyboardEvent(Constants.KEYCODE_DOT, Keyboard.getEventKeyState());
 			case Keyboard.KEY_MINUS:
 				return new KeyboardEvent(Constants.KEYCODE_MINUS, Keyboard.getEventKeyState());
+			
+			case Keyboard.KEY_UP:
+				scrollY(Keyboard.getEventKeyState() ? 1 : 0);
+				return new KeyboardEvent(Constants.KEYCODE_UP, Keyboard.getEventKeyState());
+			case Keyboard.KEY_DOWN:
+				scrollY(Keyboard.getEventKeyState() ? -1 : 0);
+				return new KeyboardEvent(Constants.KEYCODE_DOWN, Keyboard.getEventKeyState());
+			case Keyboard.KEY_LEFT:
+				scrollX(Keyboard.getEventKeyState() ? -1 : 0);
+				return new KeyboardEvent(Constants.KEYCODE_LEFT, Keyboard.getEventKeyState());
+			case Keyboard.KEY_RIGHT:
+				scrollX(Keyboard.getEventKeyState() ? 1 : 0);
+				return new KeyboardEvent(Constants.KEYCODE_RIGHT, Keyboard.getEventKeyState());
 				
-				default:
-					return new KeyboardEvent(-1, false);
+			default:
+				return new KeyboardEvent(-1, false);
 			}
 		}
 		
@@ -253,6 +271,18 @@ public class Window {
 		}
 		
 		return new MouseInfo(x, y, left, middle, right);
+	}
+	
+	public void scrollX(int x) {
+		if(currentRenderer != null) {
+			currentRenderer.scrollX(x);
+		}
+	}
+	
+	public void scrollY(int y) {
+		if(currentRenderer != null) {
+			currentRenderer.scrollY(y);
+		}
 	}
 	
 }
