@@ -3,6 +3,8 @@ package de.stealmycode.beehive.model.world;
 import de.stealmycode.beehive.model.world.animals.IMovable;
 import de.stealmycode.beehive.utils.Direction;
 import de.stealmycode.beehive.utils.Position;
+
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
@@ -127,5 +129,17 @@ public class World {
     		return null;
     	}
     	return getField(newPos);
+    }
+    
+    public List<Field> getNeighbourFields(Field field) {
+        List<Field> result = new ArrayList<Field>(6);
+        Field neighbour = null;
+        if ((neighbour = getNeighbourField(field, Direction.NORTH)) != null) result.add(neighbour);
+        if ((neighbour = getNeighbourField(field, Direction.NORTH_EAST)) != null) result.add(neighbour);
+        if ((neighbour = getNeighbourField(field, Direction.SOUTH_EAST)) != null) result.add(neighbour);
+        if ((neighbour = getNeighbourField(field, Direction.SOUTH)) != null) result.add(neighbour);
+        if ((neighbour = getNeighbourField(field, Direction.SOUTH_WEST)) != null) result.add(neighbour);
+        if ((neighbour = getNeighbourField(field, Direction.NORTH_WEST)) != null) result.add(neighbour);
+        return result;
     }
 }

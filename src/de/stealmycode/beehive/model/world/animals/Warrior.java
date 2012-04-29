@@ -1,6 +1,5 @@
 package de.stealmycode.beehive.model.world.animals;
 
-import de.stealmycode.beehive.utils.Direction;
 import de.stealmycode.beehive.utils.Position;
 
 public class Warrior extends AbstractMovableObject {
@@ -27,6 +26,11 @@ public class Warrior extends AbstractMovableObject {
     @Override
     public int getImageID() {
         return 37;
+    }
+
+    @Override
+    public String getAccessibleProperty() {
+        return "flyable";
     }
 
 
