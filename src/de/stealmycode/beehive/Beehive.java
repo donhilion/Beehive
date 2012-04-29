@@ -5,6 +5,7 @@ import de.stealmycode.beehive.config.GraphicsConfig;
 import de.stealmycode.beehive.game_engine.Game;
 import de.stealmycode.beehive.graphics_engine.Window;
 import de.stealmycode.beehive.utils.Constants;
+import de.stealmycode.beehive.utils.Log;
 
 public class Beehive {
     
@@ -15,7 +16,9 @@ public class Beehive {
      * @param args
      */
     public static void main(String[] args) {
+        Log.preInit();
         loadConfigs();
+        Log.init();
         Window window = new Window();
         window.initialize();
         

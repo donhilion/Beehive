@@ -21,8 +21,9 @@ public final class Constants {
     public static final String DIFFICULTY_EASY      = "Easy";
 
     // Constants for Configs
-    public static final String CONFIG_GLOBAL                       = "Global";
-    public static final String CONFIG_BASE_PROBABILITY             = "BaseProbability";
+    public static final String CONFIG_GLOBAL                         = "Global";
+    public static final String CONFIG_BASE_PROBABILITY               = "BaseProbability";
+    public static final String CONFIG_LOGLEVEL                       = "LogLevel";
     public static final String CONFIG_HARD                           = DIFFICULTY_HARD;
     public static final String CONFIG_MEDIUM                         = DIFFICULTY_MEDIUM;
     public static final String CONFIG_EASY                           = DIFFICULTY_EASY;
@@ -34,6 +35,7 @@ public final class Constants {
     // Constants for Paths
     public final static String PATH_GRAPHICS_CONFIG                 = "config/graphics.yml";
     public final static String PATH_CONFIG                          = "config/config.yml";
+    public final static String PATH_LOGFILE                         = "LogFile.txt";
     
     // Constants for Keycodes
     public final static int KEYCODE_0 = 0;
