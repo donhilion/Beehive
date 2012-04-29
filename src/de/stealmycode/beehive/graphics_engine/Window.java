@@ -64,8 +64,9 @@ public class Window {
 			meadowRenderer.init(width, height);
 			
 			imageManager = new ImageManager();
-			imageManager.loadImage("ressources", "texture_test_description.desc");
-			imageManager.loadImageDescription("ressources/sprite_test_description.desc");
+//			imageManager.loadImage("ressources", "texture_test_description.desc");
+//			imageManager.loadImageDescription("ressources/sprite_test_description.desc");
+			imageManager.loadConfig("config/graphics.yml");
 			
 			meadowRenderer.setImageRenderer(imageManager);
 			

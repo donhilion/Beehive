@@ -1,18 +1,19 @@
 package de.stealmycode.beehive.graphics_engine;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import org.newdawn.slick.opengl.Texture;
 import org.newdawn.slick.opengl.TextureLoader;
 import org.newdawn.slick.util.ResourceLoader;
 
-import de.stealmycode.beehive.utils.Logger;
+import de.stealmycode.beehive.config.GraphicsConfig;
 
 
 /**
@@ -33,11 +34,9 @@ public class ImageManager {
 	private int[][] imageIdToSpriteId;
 	
 	/**
-	 * Contains the rectangles to the sprites.
-	 * 
-	 * rectangleOfSprite[spriteId] = [textureId, x, y, width, height, rectWidth, rectHeight]
+	 * Contains the sprites.
 	 */
-	private float[][] rectangleOfSprite;
+	private Sprite[] sprites;
 	
 	/**
 	 * The array containing the textures containing the images.
@@ -51,142 +50,118 @@ public class ImageManager {
 	private static final int renderRate = 500;
 	
 	/**
-	 * Loads the files described by the given description file.
+	 * Loads the given yaml configuration file and
+	 * the textures which are described in it.
+	 * Also, the described sprites will be generated.
 	 * 
-	 * @param fileName The filename of the image.
-	 * 
-	 * @return true if the image was successfully loaded.
+	 * @param fileName
+	 * @return true, if the loading was successful
 	 */
-	public boolean loadImage(String path, String fileName) {
-		try {
-			BufferedReader reader = new BufferedReader(
-					new InputStreamReader(ResourceLoader.getResourceAsStream(
-							path + "/" + fileName)));
-			
-			HashMap<Integer, Texture> idToTexture = new HashMap<Integer, Texture>();
-			int maxId = 0;
-			
-			String line = reader.readLine();
-			while(line != null) {
-				try {
-					String[] parts = line.split(", ");
-					int id = Integer.parseInt(parts[0]);
-					Texture texture = 
-							TextureLoader.getTexture("PNG", 
-									ResourceLoader.getResourceAsStream(
-											path + "/" + parts[1]));
-					idToTexture.put(id, texture);
-					if(id > maxId) {
-						maxId = id;
-					}
-				} catch(Exception e) {
-					Logger.logw("Could not parse texture description line: " + line, this.getClass());
-				} finally {
-					line = reader.readLine();
-				}
-			}
-			textures = new Texture[maxId+1];
-			for(Integer key : idToTexture.keySet()) {
-				textures[key] = idToTexture.get(key);
-			}
-			
-			return true;
-		} catch (Exception e) {
-			Logger.loge("Could not load image", e, this.getClass());
+	public boolean loadConfig(String fileName) {
+		GraphicsConfig config = new GraphicsConfig();
+		
+		if(!config.load(fileName)) {
 			return false;
 		}
-	}
-	
-	/**
-	 * Loads the given file of the image description.
-	 * This description contains informations of the rectangles
-	 * which contains a sprite.
-	 * Also information about the imageId and the associated sprites
-	 * is given in this description.
-	 * 
-	 * File formate:
-	 * imageId, textureId, x, y, width, height, optional comment
-	 * 
-	 * @param fileName The filename of the description.
-	 * 
-	 * @return true if the image was successfully loaded.
-	 */
-	public boolean loadImageDescription(String fileName) {
-		try {
-			BufferedReader reader = new BufferedReader(
-					new InputStreamReader(ResourceLoader.getResourceAsStream(fileName)));
-			LinkedList<Integer[]> readedList = new LinkedList<Integer[]>();
-			String line = reader.readLine();
-			while(line != null) {
-				String[] parts = line.replace(" ", "").split(",");
-				if(parts.length >= 6) {
-					try {
-						Integer[] values = new Integer[6];
-						for(int i=0; i<6; i++) {
-							values[i] = Integer.parseInt(parts[i]);
+		Map<Integer, String> textureMap = config.getTextures();
+		
+		// get max id
+		int max = 0;
+		for(int key : textureMap.keySet()) {
+			if(key > max) {
+				max = key;
+			}
+		}
+		
+		textures = new Texture[max+1];
+		
+		// load textures
+		for(int key : textureMap.keySet()) {
+			try {
+				textures[key] = 
+						TextureLoader.getTexture("PNG", 
+								ResourceLoader.getResourceAsStream(
+										textureMap.get(key)));
+			} catch (IOException e) {
+				Logger.getGlobal().log(
+						Level.WARNING, "Could not load texture: " + key, e);
+			}
+		}
+		
+		Map<Integer, Object> imageMap = config.getImages();
+		
+		// get max id
+		max = 0;
+		for(Integer key : imageMap.keySet()) {
+			if(key > max) {
+				max = key;
+			}
+		}
+		
+		int spriteId = 0;
+		imageIdToSpriteId = new int[max+1][];
+		
+		
+		LinkedList<Sprite> tempSprites = new LinkedList<Sprite>();
+		HashMap<Integer, List<Integer>> tempIds = new HashMap<Integer, List<Integer>>();
+		
+		for(Integer key : imageMap.keySet()) {
+			Object listObject = imageMap.get(key);
+			if(listObject instanceof List<?>) {
+				List<?> list = (List<?>) listObject;
+				List<Integer> ids = new LinkedList<Integer>();
+				for(Object o : list) {
+					if(o instanceof List<?>) {
+						List<?> entries = (List<?>) o;
+						try {
+							Sprite sprite = new Sprite();
+							sprite.texture = textures[(Integer) entries.get(0)];
+							sprite.x = ((Integer) entries.get(1))/
+									((float) sprite.texture.getImageWidth())*sprite.texture.getWidth();
+							sprite.y = ((Integer) entries.get(2))/
+									((float) sprite.texture.getImageHeight())*sprite.texture.getHeight();
+							sprite.width = (Integer) entries.get(3);
+							sprite.height = (Integer) entries.get(4);
+							sprite.rectWidth = sprite.width/
+									((float) sprite.texture.getImageWidth())*sprite.texture.getWidth();
+							sprite.rectHeight = sprite.height/
+									((float) sprite.texture.getImageHeight())*sprite.texture.getHeight();
+							
+							tempSprites.add(sprite);
+							ids.add(spriteId);
+							spriteId++;
+						} catch(Exception e) {
+							Logger.getGlobal().log(Level.WARNING, "Could not read sprite entry");
 						}
-						readedList.add(values);
-					} catch(Exception e) {
-						Logger.logw("Could not parse description line: " + line, this.getClass());
-					} finally {
-						line = reader.readLine();
 					}
 				}
+				tempIds.put(key, ids);
 			}
-			// summarize by imageId
-			int maxId = 0;
-			HashMap<Integer, List<Integer[]>> temporaryMap = new HashMap<Integer, List<Integer[]>>();
-			for(Integer[] l : readedList) {
-				List<Integer[]> list = temporaryMap.get(l[0]);
-				if(list == null) {
-					list = new LinkedList<Integer[]>();
-					temporaryMap.put(l[0], list);
-				}
-				list.add(l);
-				// get max id for array size
-				if(l[0] > maxId) {
-					maxId = l[0];
-				}
-			}
-			
-			// put lists in an array for faster access.
-			int spriteId = 0;
-			rectangleOfSprite = new float[readedList.size()][];
-			imageIdToSpriteId = new int[maxId+1][];
-			
-			for(int key : temporaryMap.keySet()) {
-				List<Integer[]> list = temporaryMap.get(key);
-				int[] spriteIds = new int[list.size()];
-				for(int i=0; i<list.size(); i++) {
-					Integer[] array = list.get(i);
-					float[] rectangle = new float[7];
-					
-					if(array[1] < 0 || array[1] >= textures.length) {
-						continue;
-					}
-					
-					// size of rectangle must be calculated to the texture size
-					rectangle[0] = array[1];
-					Texture texture = textures[array[1]];
-					rectangle[1] = ((float) array[2])/((float) texture.getImageWidth())*texture.getWidth(); // x
-					rectangle[2] = ((float) array[3])/((float) texture.getImageHeight())*texture.getHeight(); // y
-					rectangle[3] = array[4]; // width
-					rectangle[4] = array[5]; // height
-					rectangle[5] = ((float) array[4])/((float) texture.getImageWidth())*texture.getWidth(); // rectWidth
-					rectangle[6] = ((float) array[5])/((float) texture.getImageHeight())*texture.getHeight(); // rectHeight
-					
-					rectangleOfSprite[spriteId] = rectangle;
-					spriteIds[i] = spriteId;
-					spriteId++;
-				}
-				imageIdToSpriteId[key] = spriteIds;
-			}
-			
-			return true;
-		} catch (IOException e) {
-			Logger.loge("Could not load description file.", e, this.getClass());
-			return false;
 		}
+		
+		sprites = new Sprite[tempSprites.size()];
+		for(int i=0; i<tempSprites.size(); i++) {
+			sprites[i] = tempSprites.get(i);
+		}
+		
+		max = 0;
+		for(Integer key : tempIds.keySet()) {
+			if(key > max) {
+				max = key;
+			}
+		}
+		
+		imageIdToSpriteId = new int[max+1][];
+		for(Integer key : tempIds.keySet()) {
+			List<Integer> list = tempIds.get(key);
+			imageIdToSpriteId[key] = new int[list.size()];
+			for(int i=0; i<list.size(); i++) {
+				imageIdToSpriteId[key][i] = list.get(i);
+			}
+		}
+		
+		
+		return true;
 	}
 	
 	/**
@@ -199,39 +174,32 @@ public class ImageManager {
 	 */
 	public Sprite getSprite(int imageId) {
 		if(imageId < 0 || imageId >= imageIdToSpriteId.length) {
-			Logger.logw("imageId out of range"+imageId, this.getClass());
+//			Logger.logw("imageId out of range"+imageId, this.getClass());
+			// TODO
 			return null;
 		}
 		
 		if(imageIdToSpriteId[imageId] == null) {
-			Logger.logw("No sprites for imageId "+imageId, this.getClass());
+//			Logger.logw("No sprites for imageId "+imageId, this.getClass());
+			// TODO
 			return null;
 		}
 		
 		int n = imageIdToSpriteId[imageId].length;
 		if(n == 0) {
-			Logger.logw("Empty sprite list for imageId "+imageId, this.getClass());
+//			Logger.logw("Empty sprite list for imageId "+imageId, this.getClass());
+			// TODO
 			return null;
 		}
 		int spriteId = imageIdToSpriteId[imageId][(int)((new Date().getTime()/renderRate)%n)];
 		
-		if(spriteId < 0 || spriteId >= rectangleOfSprite.length) {
-			Logger.logw("spriteId out of range: "+spriteId, this.getClass());
+		if(spriteId < 0 || spriteId >= sprites.length) {
+//			Logger.logw("spriteId out of range: "+spriteId, this.getClass());
+			// TODO
 			return null;
 		}
 		
-		float[] rectangle = rectangleOfSprite[spriteId];
-		
-		Sprite sprite = new Sprite();
-		sprite.texture = textures[(int)rectangle[0]];
-		sprite.x = rectangle[1];
-		sprite.y = rectangle[2];
-		sprite.width = rectangle[3];
-		sprite.height = rectangle[4];
-		sprite.rectWidth = rectangle[5];
-		sprite.rectHeight = rectangle[6];
-		
-		return sprite;
+		return sprites[spriteId];
 	}
 
 }

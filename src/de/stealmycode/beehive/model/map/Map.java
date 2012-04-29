@@ -56,6 +56,11 @@ public class Map{
             public Position getPosition() {
                 return position;
             }
+
+			@Override
+			public void setDirection(Direction direction) {
+				this.direction = direction;
+			}
         });
     }
 

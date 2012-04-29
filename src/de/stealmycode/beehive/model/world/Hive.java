@@ -26,12 +26,17 @@ public class Hive implements IDrawable {
 
     @Override
     public Direction getDirection() {
-        return Direction.NORTH;
+        return Direction.SOUTH;
     }
 
     @Override
     public Position getPosition() {
         return position;
     }
+
+	@Override
+	public void setDirection(Direction direction) {
+		// direction will not be set
+	}
     
 }

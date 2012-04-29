@@ -1,4 +1,6 @@
 Images:
+  0:
+    - [1, 0, 0, 670, 670]
   13:
     - [0, 0, 0, 50, 50, begin row one]
     - [0, 50, 0, 50, 50]
@@ -42,5 +44,5 @@ Images:
     - [0, 200, 250, 200, 150]
     - [0, 1, 0, 0, 670, 670]
 Textures:
-  0: sprite_test.png
-  1: grass_04.png
+  0: ressources/sprite_test.png
+  1: ressources/grass_04.png
