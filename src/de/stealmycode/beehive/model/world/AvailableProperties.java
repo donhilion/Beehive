@@ -5,10 +5,28 @@ import java.util.List;
 
 public class AvailableProperties {
 	
-	private static List<FieldProperty> properties = new ArrayList<FieldProperty>();
+	private List<FieldProperty> properties = new ArrayList<FieldProperty>();
 
-	private AvailableProperties() { }
-	
+        /**
+         * 
+         */
+        public AvailableProperties() { }
+        
+        /**
+         * 
+         * @param properties 
+         */
+	public AvailableProperties(List<FieldProperty> properties) {
+            this.properties = properties;
+        }        
+        
+        /**
+         * 
+         */
+        public void clearProperties() {
+            properties.clear();
+        }
+        
 	/**
 	 * 
 	 * @param name Name to identify the property
@@ -16,7 +34,7 @@ public class AvailableProperties {
 	 * @throws IllegalArgumentException if a property using the same name was added earlier
 	 * property was replaced
 	 */
-	public static void addProperty(FieldProperty property) {
+	public void addProperty(FieldProperty property) {
 		if (getProperty(property.getName()) != null) {
 			throw new IllegalArgumentException("A property using the same name exists.");
 		}
@@ -28,7 +46,7 @@ public class AvailableProperties {
 	 * @param name
 	 * @return
 	 */
-	public static FieldProperty getProperty(String name) {
+	public FieldProperty getProperty(String name) {
 		for (FieldProperty property : properties) {
 			if (property.getName().equals(name)) {
 				return property;
@@ -41,7 +59,7 @@ public class AvailableProperties {
 	 * 
 	 * @return
 	 */
-	public static List<FieldProperty> getProperties() {
+	public List<FieldProperty> getProperties() {
 		return properties;
 	}
 }

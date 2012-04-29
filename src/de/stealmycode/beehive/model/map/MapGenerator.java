@@ -32,7 +32,7 @@ public class MapGenerator implements IMapGenerator {
         
         for (int i = 0; i < fields.length; i++) {
             for (int j = 0; j < fields[0].length; j++) {
-                map.addField(fields[i][j]);
+//                map.addField(fields[i][j]);
             }
         }
         
