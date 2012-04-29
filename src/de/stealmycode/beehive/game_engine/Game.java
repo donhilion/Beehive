@@ -65,7 +65,7 @@ public class Game {
 			}
 		});
         
-        world.addMovableObject(new Bee(Direction.SOUTH, 37, 1, 1, new Position(3, 3)));
+        world.addMovableObject(new Bee(new Position(3, 3)));
         
         
 //        map.addDrawable(new IDrawable() {
