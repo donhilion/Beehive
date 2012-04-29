@@ -98,7 +98,7 @@ public class World {
      * 
      * @param field field used as origin
      * @param direction where to look for the neighbour
-     * @return null if there is no neighour, the neighbour otherwise
+     * @return null if there is no neighbour, the neighbour otherwise
      */
     public Field getNeighbourField(Field field, Direction direction) {
     	Position pos		= field.getPosition();
@@ -124,8 +124,8 @@ public class World {
     			newPos = new Position(pos.getX() - 1, pos.getY()+(pos.getX()%2));
     			break;
     	}
-    	if (newPos.getX() < 0 || newPos.getX() > width ||
-    		newPos.getY() < 0 || newPos.getY() > height) {
+    	if (newPos.getX() < 0 || newPos.getX() >= width ||
+    		newPos.getY() < 0 || newPos.getY() >= height) {
     		return null;
     	}
     	return getField(newPos);

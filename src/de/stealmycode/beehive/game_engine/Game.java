@@ -65,7 +65,10 @@ public class Game {
 			}
 		});
         
-        world.addMovableObject(new Bee(new Position(3, 3)));
+        Bee bee = new Bee(new Position(3, 3)); 
+        world.addMovableObject(bee);
+        
+        bee.move(world, world.getField(new Position(19, 12)));
         
         
 //        map.addDrawable(new IDrawable() {

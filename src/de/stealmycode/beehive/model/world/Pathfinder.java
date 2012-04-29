@@ -49,7 +49,7 @@ public class Pathfinder {
     }
     
     private World world;
-    private AbstractDrawableObject object;
+    private AbstractMovableObject object;
     
     private PriorityQueue<Item> openList = new PriorityQueue<>(11, new ItemComparator());
     private List<Item> closedList = new LinkedList<Item>();
@@ -85,7 +85,7 @@ public class Pathfinder {
      */
     public List<Position> calculate(Position start, Position end) {
         openList.add(new Item(start, 0));
-        while (openList.isEmpty()) {
+        while (!openList.isEmpty()) {
             Item current = openList.remove();
             if (current.position.equals(end)) {
                 return getPath(current); 
@@ -105,6 +105,9 @@ public class Pathfinder {
     private void expandNode(Item currentItem, Position end) {
         Field currentField = world.getField(currentItem.position);
         for (Field field : world.getNeighbourFields(currentField)) {
+            if (!object.canStepOn(field)) {
+                continue;
+            }
             Position position = field.getPosition();
             
             containsPosition(closedList, position);
