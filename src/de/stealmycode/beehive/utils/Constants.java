@@ -8,7 +8,8 @@ package de.stealmycode.beehive.utils;
  *
  * @author fate
  */
-public interface Constants {
+public final class Constants {
+    private Constants(){}
     
     // Constants for difficulty level
     public static final String DIFFICULTY_HARD      = "Hard";
