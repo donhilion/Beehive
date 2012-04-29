@@ -1,12 +1,13 @@
 package de.stealmycode.beehive.model.world;
 
 import de.stealmycode.beehive.model.world.animals.IMovable;
+import de.stealmycode.beehive.utils.Direction;
 import de.stealmycode.beehive.utils.Position;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
 
-public class World implements IWorld {
+public class World {
 
     private static float DEF_PROBABILITY = 0.1f;
     private AvailableProperties availableProperties;
@@ -55,19 +56,76 @@ public class World implements IWorld {
         }
     }
 
-    @Override
+    /**
+     * 
+     * @return
+     */
     public Field[][] getFields() {
         return fields;
     }
+    
+    /**
+     * 
+     * @param pos
+     * @return
+     */
+    public Field getField(Position pos) {
+    	return fields[pos.getX()][pos.getY()];
+    }
 
-    @Override
+    /**
+     * 
+     * @param movableObject
+     */
     public void addMovableObject(IMovable movableObject) {
         movables.add(movableObject);
     }
 
-    @Override
+    /**
+     * 
+     * @return
+     */
     public List<IMovable> getMovables() {
-
         return movables;
+    }
+    
+    /**
+     * Get the comb which is placed next to the specified field in the given
+     * direction. If the x coordinates will change there are two rows to choose 
+     * from cause of the zigzag comb rows.
+     * 
+     * @param field field used as origin
+     * @param direction where to look for the neighbour
+     * @return null if there is no neighour, the neighbour otherwise
+     */
+    public Field getNeighbourField(Field field, Direction direction) {
+    	Position pos		= field.getPosition();
+    	Position newPos		= null;
+    	switch (direction) {
+            case NORTH:
+                newPos = new Position(pos.getX(), pos.getY() - 1);
+                break;
+            case NORTH_EAST:
+                newPos = new Position(pos.getX() + 1, pos.getY() + (pos.getX() + 1)
+                        % 2);
+                break;
+            case NORTH_WEST:
+                newPos = new Position(pos.getX() - 1, pos.getY() + (pos.getX() + 1) % 2);
+                break;
+    		case SOUTH:
+    			newPos = new Position(pos.getX(), pos.getY()+1);
+    			break;
+    		case SOUTH_EAST:
+    			newPos = new Position(pos.getX() + 1, pos.getY()+(pos.getX()%2));
+    			break;
+    		case SOUTH_WEST:
+    			newPos = new Position(pos.getX() - 1, pos.getY()+(pos.getX()%2));
+    			break;
+    	}
+    	if (newPos.getX() < 0 || newPos.getX() > width ||
+    		newPos.getY() < 0 || newPos.getY() > height) {
+    		return null;
+    	}
+    	return getField(newPos);
     }
 }
