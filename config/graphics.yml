@@ -12,6 +12,7 @@ Textures:
   10: ressources/flowerBed_3x3.png
   11: ressources/hive.png
   12: ressources/tree_3x3.png
+  13: ressources/bee.png
 
 Images:
   0: #Background meadow
@@ -88,3 +89,5 @@ Images:
     - [12, 300, 600, 300, 300, 1.0, 1.0]
   36: #end of tree sprite
     - [12, 600, 600, 300, 300, 1.0, 1.0]
+  37: #bee
+    - [13, 0, 0, 300, 300, 1.0, 1.0]
