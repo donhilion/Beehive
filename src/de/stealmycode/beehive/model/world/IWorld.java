@@ -4,10 +4,8 @@
  */
 package de.stealmycode.beehive.model.world;
 
-import java.util.List;
-
-import de.stealmycode.beehive.model.world.animals.Critter;
 import de.stealmycode.beehive.model.world.animals.IMovable;
+import java.util.List;
 
 /**
  *
@@ -19,5 +17,5 @@ public interface IWorld {
     
     public void addMovableObject(IMovable movableObject);
     
-    public List<IMovable> getMovableList();
+    public List<IMovable> getMovables();
 }

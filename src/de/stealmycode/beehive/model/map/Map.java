@@ -4,8 +4,8 @@
  */
 package de.stealmycode.beehive.model.map;
 
-import de.stealmycode.beehive.model.world.IDrawable;
 import de.stealmycode.beehive.model.world.Field;
+import de.stealmycode.beehive.model.world.IDrawable;
 import de.stealmycode.beehive.utils.Direction;
 import de.stealmycode.beehive.utils.Position;
 import java.util.ArrayList;
@@ -20,7 +20,11 @@ public class Map{
     private List<IDrawable> drawables = null;
 
     public Map() {
-        drawables = new ArrayList<IDrawable>();
+        drawables = new ArrayList<>();
+    }
+    
+    public void addDrawable(IDrawable drawable) {
+        drawables.add(drawable);
     }
     
     public List<IDrawable> getDrawables() {

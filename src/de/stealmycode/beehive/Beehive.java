@@ -2,6 +2,7 @@ package de.stealmycode.beehive;
 
 import de.stealmycode.beehive.config.Config;
 import de.stealmycode.beehive.config.GraphicsConfig;
+import de.stealmycode.beehive.game_engine.Game;
 import de.stealmycode.beehive.graphics_engine.Window;
 import de.stealmycode.beehive.model.map.Map;
 import de.stealmycode.beehive.model.map.MapGenerator;
@@ -17,46 +18,17 @@ public class Beehive {
     
     public static final Config          config          = new Config();
     public static final GraphicsConfig  graphicsConfig  = new GraphicsConfig();
+    
     /**
      * @param args
      */
     public static void main(String[] args) {
-        loadConfigs();        
-        AvailableProperties.addProperty(new FieldProperty("Blume", 5f));
-        AvailableProperties.addProperty(new FieldProperty("Baum", 5f));
-
-        World world = new World(21, 18);
-        world.generateWorld();
-
-        MapGenerator gen = MapGenerator.getInstance();
-        Map map = gen.generate(world);
-        Bee bee = new Bee(Direction.NORTH_EAST, 1, 1, 1, new Position(10, 9));
-        world.addMovableObject(bee);
-
-
+        loadConfigs();
         Window window = new Window();
         window.initialize();
-
-        window.setStaticObjects(map.getDrawables());
-
-        window.setDynamicObjects(world.getMovableList());
         
-        
-		while(!window.isCloseRequested()) {
-			window.render();
-
-			try {
-				Thread.sleep(100);
-
-				float progress = world.getMovableList().get(0).getProgress();
-				world.getMovableList().get(0).setProgress(progress + 0.1f);
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
-
-		window.closeWindow();
+        Game game = new Game(Constants.CONFIG_MEDIUM, 21, 13);
+        game.start(window);
     }
 
     private static void loadConfigs() {
