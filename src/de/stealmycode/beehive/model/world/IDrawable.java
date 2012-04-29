@@ -21,6 +21,8 @@ public interface IDrawable {
 	 * @return The position of the object on the GUI
 	 */
 	public Position getPosition();
+
+	void setDirection(Direction direction);
 	
 
 }

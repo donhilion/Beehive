@@ -7,6 +7,7 @@ import org.newdawn.slick.Color;
 
 import de.stealmycode.beehive.model.world.IDrawable;
 import de.stealmycode.beehive.model.world.animals.IMovable;
+import de.stealmycode.beehive.utils.Direction;
 
 /**
  * This renderer will render the meadow view.
@@ -72,6 +73,23 @@ public class MeadowRenderer {
 		return true;
 	}
 	
+	private float getAngleForDirection(Direction direction) {
+		switch(direction) {
+		case SOUTH_WEST:
+			return ANGLE_60;
+		case NORTH_WEST:
+			return 2.0f * ANGLE_60;
+		case NORTH:
+			return 3.0f * ANGLE_60;
+		case NORTH_EAST:
+			return 4.0f * ANGLE_60;
+		case SOUTH_EAST:
+			return 5.0f * ANGLE_60;
+		default:
+			return 0.0f;
+		}
+	}
+	
 	private void drawSprite(Sprite sprite, float x, float y, float angle) {
 		Color.white.bind();
 		sprite.texture.bind(); // or GL11.glBind(texture.getTextureID());
@@ -107,8 +125,8 @@ public class MeadowRenderer {
 	
 	private void renderBackground() {
 		Sprite background = imageManager.getSprite(BACKGROUND_ID);
-		for(float x=0; x<width; x+=background.width) {
-			for(float y=0; y<height; y+=background.height) {
+		for(float x=-background.width/2.0f; x<width+background.width/2.0f; x+=background.width) {
+			for(float y=-background.height/2.0f; y<height+background.height/2.0f; y+=background.height) {
 				drawSprite(background, x, y, 0.0f);
 			}
 		}
@@ -165,19 +183,7 @@ public class MeadowRenderer {
 			float y = height-sizeOfComb*(SIN_60*(float)(object.getPosition().getY())
 					+0.5f*(1+(float)(object.getPosition().getX() % 2)));
 			
-			float angle = 0.0f;
-			switch(object.getDirection()) {
-			case SOUTH_WEST:
-				angle = -ANGLE_60;
-			case NORT_WEST:
-				angle = -(float)(Math.PI) - ANGLE_60;
-			case SOUTH_EAST:
-				angle = ANGLE_60;
-			case NORTH_EAST:
-				angle = (float)(Math.PI) + ANGLE_60;
-			case NORTH:
-				angle = (float)(2.0f*Math.PI);
-			}
+			float angle = getAngleForDirection(object.getDirection());
 			
 			drawSprite(sprite, x, y, angle);
 		}
@@ -198,22 +204,12 @@ public class MeadowRenderer {
 			float y = height-sizeOfComb*(SIN_60*(float)(object.getPosition().getY())
 					+0.5f*(1+(float)(object.getPosition().getX() % 2)));
 			
-			float angle = 0.0f;
-			switch(object.getDirection()) {
-			case SOUTH_WEST:
-				angle = -ANGLE_60;
-			case NORT_WEST:
-				angle = -(float)(Math.PI) - ANGLE_60;
-			case SOUTH_EAST:
-				angle = ANGLE_60;
-			case NORTH_EAST:
-				angle = (float)(Math.PI) + ANGLE_60;
-			case NORTH:
-				angle = (float)(2.0f*Math.PI);
-			}
+			float angle = getAngleForDirection(object.getDirection());
+			
+			System.out.println(angle/Math.PI);
 			
 			x -= object.getProgress()*0.75f*sizeOfComb*Math.sin(angle);
-			y += object.getProgress()*SIN_60*sizeOfComb*Math.sin(angle);
+			y += object.getProgress()*SIN_60*sizeOfComb*Math.cos(angle);
 			
 			
 			drawSprite(sprite, x, y, angle);

@@ -118,5 +118,11 @@ public class Critter implements IMovable {
 		this.position = position;
 		
 	}
+	
+	@Override
+	public void setDirection(Direction direction) {
+		
+		this.direction = direction;
+	}
 
 }
