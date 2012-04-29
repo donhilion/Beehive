@@ -90,7 +90,7 @@ public class MeadowRenderer {
 		}
 	}
 	
-	private void drawSprite(Sprite sprite, float x, float y, float angle) {
+	private void drawSprite(Sprite sprite, float x, float y, float angle, boolean absolute) {
 		Color.white.bind();
 		sprite.texture.bind(); // or GL11.glBind(texture.getTextureID());
 		
@@ -98,17 +98,17 @@ public class MeadowRenderer {
 		float cosVal = (float) Math.cos(angle);
 		float sinVal = (float) Math.sin(angle);
 		
-		float x1 = x - sprite.width * DIV_SQRT_2 * sinVal;
-		float y1 = y + sprite.height * DIV_SQRT_2 * cosVal;
+		float x1 = x - sprite.width * (absolute ? 1 : sizeOfComb) * DIV_SQRT_2 * sinVal;
+		float y1 = y + sprite.height * (absolute ? 1 : sizeOfComb) * DIV_SQRT_2 * cosVal;
 		
-		float x2 = x + sprite.width * DIV_SQRT_2 * cosVal;
-		float y2 = y + sprite.height * DIV_SQRT_2 * sinVal;
+		float x2 = x + sprite.width * (absolute ? 1 : sizeOfComb) * DIV_SQRT_2 * cosVal;
+		float y2 = y + sprite.height * (absolute ? 1 : sizeOfComb) * DIV_SQRT_2 * sinVal;
 		
-		float x3 = x + sprite.width * DIV_SQRT_2 * sinVal;
-		float y3 = y - sprite.height * DIV_SQRT_2 * cosVal;
+		float x3 = x + sprite.width * (absolute ? 1 : sizeOfComb) * DIV_SQRT_2 * sinVal;
+		float y3 = y - sprite.height * (absolute ? 1 : sizeOfComb) * DIV_SQRT_2 * cosVal;
 		
-		float x4 = x - sprite.width * DIV_SQRT_2 * cosVal;
-		float y4 = y - sprite.height * DIV_SQRT_2 * sinVal;
+		float x4 = x - sprite.width * (absolute ? 1 : sizeOfComb) * DIV_SQRT_2 * cosVal;
+		float y4 = y - sprite.height * (absolute ? 1 : sizeOfComb) * DIV_SQRT_2 * sinVal;
 		
 
 		GL11.glBegin(GL11.GL_QUADS);
@@ -127,13 +127,13 @@ public class MeadowRenderer {
 		Sprite background = imageManager.getSprite(BACKGROUND_ID);
 		for(float x=-background.width/2.0f; x<width+background.width/2.0f; x+=background.width) {
 			for(float y=-background.height/2.0f; y<height+background.height/2.0f; y+=background.height) {
-				drawSprite(background, x, y, 0.0f);
+				drawSprite(background, x, y, 0.0f, true);
 			}
 		}
 	}
 	
 	private void renderField() {
-		Color.green.bind();		
+		Color.black.bind();		
 		GL11.glLineWidth(2.0f);
 		
 		for(int x=0; x<combCountX; x++) {
@@ -141,27 +141,27 @@ public class MeadowRenderer {
 				GL11.glBegin(GL11.GL_LINE_LOOP);
 				GL11.glVertex2f(x*sizeOfComb*0.75f,
 						height-(y*sizeOfComb*SIN_60
-								+sizeOfComb*0.5f*(1+(float)(x%2))));
+								+sizeOfComb*0.5f*(1+SIN_60*(float)(x%2))));
 				
 				GL11.glVertex2f(x*sizeOfComb*0.75f+sizeOfComb*0.25f,
 						height-(y*sizeOfComb*SIN_60
-								+sizeOfComb*0.5f*(1-SIN_60+(float)(x%2))));
+								+sizeOfComb*0.5f*(1-SIN_60+SIN_60*(float)(x%2))));
 				
 				GL11.glVertex2f(x*sizeOfComb*0.75f+sizeOfComb*0.75f,
 						height-(y*sizeOfComb*SIN_60
-								+sizeOfComb*0.5f*(1-SIN_60+(float)(x%2))));
+								+sizeOfComb*0.5f*(1-SIN_60+SIN_60*(float)(x%2))));
 				
 				GL11.glVertex2f(x*sizeOfComb*0.75f+sizeOfComb,
 						height-(y*sizeOfComb*SIN_60
-								+sizeOfComb*0.5f*(1+(float)(x%2))));
+								+sizeOfComb*0.5f*(1+SIN_60*(float)(x%2))));
 				
 				GL11.glVertex2f(x*sizeOfComb*0.75f+sizeOfComb*0.75f,
 						height-(y*sizeOfComb*SIN_60
-								+sizeOfComb*0.5f*(1+SIN_60+(float)(x%2))));
+								+sizeOfComb*0.5f*(1+SIN_60+SIN_60*(float)(x%2))));
 				
 				GL11.glVertex2f(x*sizeOfComb*0.75f+sizeOfComb*0.25f,
 						height-(y*sizeOfComb*SIN_60
-								+sizeOfComb*0.5f*(1+SIN_60+(float)(x%2))));
+								+sizeOfComb*0.5f*(1+SIN_60+SIN_60*(float)(x%2))));
 				
 				GL11.glEnd();
 			}
@@ -185,7 +185,7 @@ public class MeadowRenderer {
 			
 			float angle = getAngleForDirection(object.getDirection());
 			
-			drawSprite(sprite, x, y, angle);
+			drawSprite(sprite, x, y, angle, false);
 		}
 	}
 	
@@ -212,7 +212,7 @@ public class MeadowRenderer {
 			y += object.getProgress()*SIN_60*sizeOfComb*Math.cos(angle);
 			
 			
-			drawSprite(sprite, x, y, angle);
+			drawSprite(sprite, x, y, angle, false);
 		}
 	}
 	

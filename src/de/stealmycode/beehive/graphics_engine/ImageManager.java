@@ -120,11 +120,11 @@ public class ImageManager {
 									((float) sprite.texture.getImageWidth())*sprite.texture.getWidth();
 							sprite.y = ((Integer) entries.get(2))/
 									((float) sprite.texture.getImageHeight())*sprite.texture.getHeight();
-							sprite.width = (Integer) entries.get(3);
-							sprite.height = (Integer) entries.get(4);
-							sprite.rectWidth = sprite.width/
+							sprite.width = ((Number) entries.get(5)).floatValue();
+							sprite.height = ((Number) entries.get(6)).floatValue();
+							sprite.rectWidth = (Integer) entries.get(3) /
 									((float) sprite.texture.getImageWidth())*sprite.texture.getWidth();
-							sprite.rectHeight = sprite.height/
+							sprite.rectHeight = (Integer) entries.get(4) /
 									((float) sprite.texture.getImageHeight())*sprite.texture.getHeight();
 							
 							tempSprites.add(sprite);
