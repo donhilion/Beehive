@@ -33,10 +33,4 @@ public class Hive implements IDrawable {
     public Position getPosition() {
         return position;
     }
-
-	@Override
-	public void setDirection(Direction direction) {
-		// direction will not be set
-	}
-    
 }

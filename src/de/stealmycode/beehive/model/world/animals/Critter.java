@@ -93,33 +93,23 @@ public class Critter implements IMovable {
 		return progress;
 	}
 	
-	@Override
 	public void setProgress(float progress)
 	{
 		this.progress = progress;
 	}
 
-	@Override
 	public void setNewPosition(Position newPosition) {
 		
 		this.newPosition = newPosition;
 		
 	}
 
-	@Override
-	public Position getNewPosition() {
-		
-		return newPosition;
-	}
-
-	@Override
 	public void setCurrentPosition(Position position) {
 		
 		this.position = position;
 		
 	}
 	
-	@Override
 	public void setDirection(Direction direction) {
 		
 		this.direction = direction;

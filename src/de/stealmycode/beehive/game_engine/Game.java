@@ -48,11 +48,6 @@ public class Game {
         	Position position = new Position(0, 0);
 			
 			@Override
-			public void setDirection(Direction direction) {
-				
-			}
-			
-			@Override
 			public Position getPosition() {
 				return position;
 			}
