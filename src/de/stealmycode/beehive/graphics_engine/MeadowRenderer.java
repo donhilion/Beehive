@@ -9,6 +9,7 @@ import de.stealmycode.beehive.model.world.IDrawable;
 import de.stealmycode.beehive.model.world.animals.IMovable;
 import de.stealmycode.beehive.utils.Constants;
 import de.stealmycode.beehive.utils.Direction;
+import de.stealmycode.beehive.utils.Position;
 
 /**
  * This renderer will render the meadow view.
@@ -263,5 +264,21 @@ public class MeadowRenderer implements IRenderer {
 		GL11.glLoadIdentity();
 		GL11.glOrtho(camX, width+camX, camY, height+camY, 1, -1);
 		GL11.glMatrixMode(GL11.GL_MODELVIEW);
+	}
+
+	@Override
+	public Position getGamePosition(int x, int y) {
+		x -= camX;
+		y -= camY;
+		
+		float gameX = (float) x / (sizeOfComb * 0.75f);
+		if(gameX % 1.0f < 0.25f) {
+			// complicated
+		}
+		
+		float gameY = (height-y-sizeOfComb*0.5f*(1+Constants.SIN_60*(float)(((int)gameX)%2)))
+				/ sizeOfComb*Constants.SIN_60;
+		
+		return new Position((int) gameX, (int) gameY);
 	}
 }

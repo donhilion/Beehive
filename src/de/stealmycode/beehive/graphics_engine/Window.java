@@ -12,6 +12,7 @@ import de.stealmycode.beehive.model.world.IDrawable;
 import de.stealmycode.beehive.model.world.animals.IMovable;
 import de.stealmycode.beehive.utils.Constants;
 import de.stealmycode.beehive.utils.Log;
+import de.stealmycode.beehive.utils.Position;
 
 
 /**
@@ -284,6 +285,13 @@ public class Window {
 		if(currentRenderer != null) {
 			currentRenderer.scrollY(y);
 		}
+	}
+	
+	public Position getGamePosition(int x, int y) {
+		if(currentRenderer == null) {
+			return null;
+		}
+		return currentRenderer.getGamePosition(x, y);
 	}
 	
 }
