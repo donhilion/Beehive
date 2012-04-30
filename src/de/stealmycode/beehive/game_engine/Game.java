@@ -37,7 +37,6 @@ public class Game {
         
         world = new World(width, height);
         world.generateWorld(availableProperties);
-        input = new Input(world);
         map = MapGenerator.getInstance().generate(world);
         map.addDrawable(new Hive(new Position(width/2, height/2)));
         
@@ -67,6 +66,7 @@ public class Game {
     public void start(Window window) {
         window.setStaticObjects(map.getDrawables());
         window.setDynamicObjects(world.getMovables());
+        input = new Input(world, window);
 //        Bee bee = new Bee(Direction.NORTH_EAST, 1, 1, 1, new Position(10, 9));
 //        world.addMovableObject(bee);
         while(!window.isCloseRequested()) {
