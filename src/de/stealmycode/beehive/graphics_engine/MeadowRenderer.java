@@ -268,8 +268,8 @@ public class MeadowRenderer implements IRenderer {
 
 	@Override
 	public Position getGamePosition(int x, int y) {
-		x -= camX;
-		y -= camY;
+		x += camX;
+		y += camY;
 		
 		float gameX = (float) x / (sizeOfComb * 0.75f);
 		if(gameX % 1.0f < 0.25f) {
