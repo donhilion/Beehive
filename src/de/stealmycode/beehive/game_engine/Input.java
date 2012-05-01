@@ -66,7 +66,7 @@ public class Input {
 				
 			}else
 			{
-				Log.debug("Input", "Window not initiallized!");
+				Log.debug("Window not initiallized!");
 			}
 
 			

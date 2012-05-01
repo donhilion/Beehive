@@ -1,14 +1,11 @@
 package de.stealmycode.beehive.utils;
 
+import de.stealmycode.beehive.Beehive;
 import java.io.IOException;
-import java.util.logging.ConsoleHandler;
 import java.util.logging.FileHandler;
 import java.util.logging.Handler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
-import de.stealmycode.beehive.Beehive;
-import de.stealmycode.beehive.utils.Constants;
 
 /**
  * Projectwide logger.
@@ -17,40 +14,36 @@ import de.stealmycode.beehive.utils.Constants;
  */
 public class Log {
 	
-	private final static String LOGGER_NAME		= "Beehive";
-	private final static Logger LOGGER_GLOBAL	= Logger.getLogger("");
+	private final static Logger LOGGER	= Logger.getLogger("");
 	
 	/**
 	 * Initialization befor loading config
 	 */
 	public static void preInit(){
-
-	    LOGGER_GLOBAL.setLevel(Lvl.INFO);
-	    
-		// delete handler
-		for(Handler handler : LOGGER_GLOBAL.getHandlers()){
-            LOGGER_GLOBAL.removeHandler(handler);
-        } 
-		
-		Handler handler;
+        
+	    LOGGER.setLevel(Level.INFO);   
 		try {
 		    // Handler for LOGGER_GLOBAL
-		    handler = new FileHandler(Constants.PATH_LOGFILE);
-            LOGGER_GLOBAL.addHandler(handler);
-            handler.setLevel(LOGGER_GLOBAL.getLevel());
-            
-            handler = new ConsoleHandler();
-            LOGGER_GLOBAL.addHandler(handler);
-            handler.setLevel(LOGGER_GLOBAL.getLevel());
+		    Handler handler = new FileHandler(Constants.PATH_LOGFILE);
+            LOGGER.addHandler(handler);
+            handler.setLevel(LOGGER.getLevel());
 		} catch (SecurityException e) {
-			error("SecurityException: "+e);
+            error("SecurityException in Log.preInit() ", e);
 			System.exit(1);
 		} catch (IOException e) {
-			error("IOException: "+e);
+            error( "IOException in Log.preInit() ", e);
 			System.exit(1);
 		}
 	}
 	
+    private static void setLogLevel(Level lvl){
+        LOGGER.finer("Change Log-Level to "+lvl.getName());
+        LOGGER.setLevel(lvl);
+        for(Handler handler : LOGGER.getHandlers()){
+            handler.setLevel(lvl);
+        }
+    }
+  
 	/**
 	 * Initialization after loading config
 	 */
@@ -58,12 +51,12 @@ public class Log {
 		Log.debug("Logger: Switch to Config Settings");
 		
 		Level globalLogLevel = Beehive.config.getGlobalLogLevel();
-		LOGGER_GLOBAL.setLevel(globalLogLevel);
+		LOGGER.setLevel(globalLogLevel);
 
-	    for(Handler handler : LOGGER_GLOBAL.getHandlers()){
+	    for(Handler handler : LOGGER.getHandlers()){
 	        handler.setLevel(globalLogLevel);
         }
-		Log.debug("Switch done");
+		Log.debug("Logger: Switch done");
 	}	
 
 	/**
@@ -71,6 +64,14 @@ public class Log {
 	 */
 	private Log() {}
 	
+    private static StackTraceElement caller(){
+        // 1    Debug
+        // 2    log
+        // 3    caller()
+        // 4    
+        return Thread.currentThread().getStackTrace()[4];
+    }
+        
 	/**
 	 * Send the message to the logger.
 	 * 
@@ -78,79 +79,74 @@ public class Log {
 	 * @param level
 	 * @param msgLvl
 	 */
-	private static void log(String logger, Level level, String msg){
-		int stackTraceLength = Thread.currentThread().getStackTrace().length-1;
-		
-		StackTraceElement lastElement = Thread.currentThread().getStackTrace()[stackTraceLength];
-		String sourceClass	= lastElement.getClassName();
-		String sourceMethod = lastElement.getMethodName();
-		Logger.getLogger(logger).logp(level, sourceClass, sourceMethod, msg);
+	private static void log(Level level, String msg){
+        StackTraceElement caller = caller();
+        
+		Logger.getLogger(caller.getClassName()).logp(level, caller.getClassName(), caller.getMethodName(), msg);
 	}
-
-	/**
-	 * Build the Loggername for Sublogger ( LOGGER_NAME.[name] )
-	 * @param name
-	 * @return LOGGER_NAME.[name]
-	 */
-	private static String buildLoggerName(String name){
-		return new StringBuilder(LOGGER_NAME).append(".").append(name).toString();
-	}
+    
+   private static void log(Level level, String msg,Throwable t){
+       StackTraceElement caller = caller();
+       
+       Logger.getLogger(caller.getClassName()).logp(level, caller.getClassName(), caller.getMethodName(), msg, t);
+        
+    }
 	
 	/**
 	 * Debug Log
 	 * 
-	 * @param msg		massage
+	 * @param msg		message
 	 */
 	public static void debug(String msg){
-		log(LOGGER_NAME,Lvl.DEBUG,msg);
+		log(Lvl.DEBUG,msg);
 	}
-	
-	/**
+    
+    /**
 	 * Debug Log
 	 * 
-	 * @param logger	logger
-	 * @param msg		massage
+	 * @param msg		message
+     * @param exception exception
 	 */
-	public static void debug(String logger, String msg){
-		log(buildLoggerName(logger), Lvl.DEBUG,msg);
+	public static void debug(String msg, Throwable t){
+		log(Lvl.DEBUG,msg ,t);
 	}
 	
 	/**
 	 * Info Log
 	 * 
-	 * @param msg		massage
+	 * @param msg		message
 	 */
 	public static void info(String msg){
-		log(LOGGER_NAME,Lvl.INFO,msg);
+		log(Level.INFO,msg);
 	}
 	
 	/**
 	 * Info Log
 	 * 
-	 * @param logger	logger
-	 * @param msg		massage
+	 * @param msg		message
+     * @param exception exception
 	 */
-	public static void info(String logger, String msg){
-		log(buildLoggerName(logger), Lvl.INFO,msg);
+	public static void info(String msg, Throwable exception){
+		log(Level.INFO,msg,exception);
 	}
 	
 	/**
 	 * Warning Log
 	 * 
-	 * @param msg		massage
+	 * @param msg		message
 	 */
 	public static void warning(String msg){
-		log(LOGGER_NAME,Lvl.WARNING,msg);
+		log(Level.WARNING,msg);
 	}
 	
 	/**
 	 * Warning Log
 	 * 
-	 * @param logger	logger
-	 * @param msg		massage
+	 * @param msg		message
+     * @param exception exception
 	 */
-	public static void warning(String logger, String msg){
-		log(buildLoggerName(logger), Lvl.WARNING,msg);
+	public static void warning(String msg, Throwable exception){
+		log(Level.WARNING,msg,exception);
 	}
 	
 	/**
@@ -159,16 +155,16 @@ public class Log {
 	 * @param msg		message
 	 */
 	public static void error(String msg){
-		log(LOGGER_NAME, Lvl.ERROR,msg);
+		log(Level.SEVERE,msg);
 	}
 
 	/**
 	 * Error Log
 	 * 
-	 * @param logger	logger
 	 * @param msg		message
+     * @param exception exception
 	 */
-	public static void error(String logger, String msg){
-		log(buildLoggerName(logger), Lvl.ERROR,msg);
+	public static void error(String msg, Throwable exception){
+		log(Level.SEVERE,msg,exception);
 	}
 }
