@@ -64,6 +64,7 @@ public abstract class AbstractMovableObject extends AbstractDrawableObject imple
      * @param field
      */
     public void move(World world, Field field) {
+        if (!canStepOn(field)) return;
         Pathfinder pathfinder = new Pathfinder(world, this);
         path = pathfinder.calculate(getPosition(), field.getPosition());
         if (path != null) {
