@@ -39,10 +39,7 @@ public class Game {
         world.generateWorld(availableProperties);
         map = MapGenerator.getInstance().generate(world);
         map.addDrawable(new Hive(new Position(width/2, height/2)));
-        
-        Bee bee = new Bee(new Position(3, 3)); 
-        world.addMovableObject(bee);        
-        bee.move(world, world.getField(new Position(19, 12)));
+//        drawNudePics();
     }
     
     public Game(String difficulty, World world, Map map) {
@@ -69,18 +66,23 @@ public class Game {
         input = new Input(world, window);
 //        Bee bee = new Bee(Direction.NORTH_EAST, 1, 1, 1, new Position(10, 9));
 //        world.addMovableObject(bee);
+        Bee bee = new Bee(new Position(3, 3)); 
+        world.addMovableObject(bee);        
+        bee.move(world, world.getField(new Position(19, 12)));
         while(!window.isCloseRequested()) {
         	// v needed to enable scrolling v
         	KeyboardEvent kEvent;
         	do {
         		kEvent = window.getNextKeyboardEvent();
         	} while(kEvent != null);
-        	
+
+                bee.step();
+                
         	input.registerMouseEvent(window.getMouseInfo());
         	// ^ needed to enable scrolling ^
             window.render();
             try {
-                Thread.sleep(100/2);
+                Thread.sleep(2000/2);
 
 //                float progress = world.getMovables().get(0).getProgress();
 //                world.getMovables().get(0).setProgress(progress + 0.1f);

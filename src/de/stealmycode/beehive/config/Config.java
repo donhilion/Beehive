@@ -25,16 +25,16 @@ public class Config extends AbstractConfig {
         Map<String, Object> data_global = (Map<String, Object>) data.get(Constants.CONFIG_GLOBAL);
         return (Float) data_global.get(Constants.CONFIG_BASE_PROBABILITY);
     }
-
-    public List<Integer> getBlacklistFor(String name) {
-        Map<String, Object> data = (Map<String, Object>) getData();
-        Map<String, Object> data_blacklist = (Map<String, Object>) data.get(Constants.CONFIG_BLACKLIST);
-        return (List<Integer>) data_blacklist.get(name);
-    }
     
+    public List<Integer> getWhitelistFor(String name) {
+        Map<String, Object> data = (Map<String, Object>) getData();
+        Map<String, Object> dataWhitelist = (Map<String, Object>) data.get(Constants.CONFIG_WHITELIST);
+        return (List<Integer>) dataWhitelist.get(name);
+    }
+
     public Level getGlobalLogLevel() {
         Map<String, Object> data = (Map<String, Object>) getData();
         Map<String, Object> data_global = (Map<String, Object>) data.get(Constants.CONFIG_GLOBAL);
         return Level.parse((String) data_global.get(Constants.CONFIG_LOGLEVEL));     
-    } 
+    }
 }

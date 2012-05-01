@@ -53,4 +53,12 @@ public class Field {
 	public List<FieldProperty> getProperties() {
 		return properties;
 	}
+
+    @Override
+    public String toString() {
+        String str = "";
+        for(FieldProperty property : this.properties) 
+            str += "," + property;
+        return str;
+    }
 }

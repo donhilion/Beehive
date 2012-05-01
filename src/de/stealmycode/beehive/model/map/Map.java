@@ -4,7 +4,6 @@
  */
 package de.stealmycode.beehive.model.map;
 
-import com.sun.xml.internal.bind.v2.runtime.reflect.opt.Const;
 import de.stealmycode.beehive.Beehive;
 import de.stealmycode.beehive.model.world.Field;
 import de.stealmycode.beehive.model.world.FieldProperty;
@@ -14,7 +13,6 @@ import de.stealmycode.beehive.utils.Position;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-import java.util.Set;
 
 /**
  *
@@ -37,27 +35,30 @@ public class Map{
     }
     
     public void addField(final Field field) {
-        // Calculate some imageID depending on properties
 //        final int iID = chooseImageID(field.getProperties());
-        final List<Integer> spriteIDs = Beehive.graphicsConfig.getSpriteIDs();
+        List<List<Integer>> whitelistList = new ArrayList<>();
+        List<Integer> spriteIDs = null;
+
         for(FieldProperty fp : field.getProperties()) {
-            List <Integer> fieldBlacklist = Beehive.config.getBlacklistFor(fp.getName());
-            for(Integer spriteID : fieldBlacklist) {
-                if (spriteIDs.contains(new Integer(spriteID))) {
-                    spriteIDs.remove(new Integer(spriteID));
-                }
+            whitelistList.add(Beehive.config.getWhitelistFor(fp.getName()));
+        }
+        
+        if (whitelistList.size() > 0) {
+            spriteIDs = new ArrayList<>(whitelistList.get(0)); // Beehive.graphicsConfig.getSpriteIDs();
+            whitelistList.remove(0);
+
+            for(List<Integer> list : whitelistList) {
+                spriteIDs.retainAll(list);
             }
         }
         
-//        System.out.println("LOL");
-
-        if (spriteIDs.toArray().length > 0) {
-            final int spriteID = (int) spriteIDs.toArray()[0];
+        if (spriteIDs != null && spriteIDs.toArray().length > 0) {
             final Random r = new Random();
+            final int spriteID = (int) spriteIDs.toArray()[r.nextInt(spriteIDs.toArray().length-1)];
 
             drawables.add(new IDrawable() {
                 
-                private int sID = (int) spriteIDs.toArray()[r.nextInt(spriteIDs.toArray().length-1)];
+                private int sID = spriteID;
 //                private Direction direction = Direction.NORTH;
                 private Position position = new Position(field.getPosition().getX(), field.getPosition().getY());
                 

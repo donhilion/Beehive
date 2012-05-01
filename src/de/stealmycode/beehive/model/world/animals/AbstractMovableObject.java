@@ -65,12 +65,17 @@ public abstract class AbstractMovableObject extends AbstractDrawableObject imple
     public void move(World world, Field field) {
         Pathfinder pathfinder = new Pathfinder(world, this);
         path = pathfinder.calculate(getPosition(), field.getPosition());
-        for (Position position : path) {
-            System.out.println(position.getX() + ", " + position. getY());
-        }
-        System.out.println(path);
+//        for (Position position : path) {
+//            System.out.println(position.getX() + ", " + position. getY());
+//        }
+//        System.out.println(path);
     }
     
+    public void step() {
+        if (path != null && path.size() > 0) {
+            setPosition(path.remove(path.size() - 1));
+        }
+    }
     
 
 }

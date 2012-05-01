@@ -38,4 +38,9 @@ public class FieldProperty implements Cloneable {
 			return null;
 		}
 	}
+
+    @Override
+    public String toString() {
+        return this.name;
+    }
 }
