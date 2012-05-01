@@ -108,11 +108,11 @@ public class World {
                 newPos = new Position(pos.getX(), pos.getY() - 1);
                 break;
             case NORTH_EAST:
-                newPos = new Position(pos.getX() + 1, pos.getY() + (pos.getX() + 1)
+                newPos = new Position(pos.getX() + 1, pos.getY() - (pos.getX() + 1)
                         % 2);
                 break;
             case NORTH_WEST:
-                newPos = new Position(pos.getX() - 1, pos.getY() + (pos.getX() + 1) % 2);
+                newPos = new Position(pos.getX() - 1, pos.getY() - (pos.getX() + 1) % 2);
                 break;
     		case SOUTH:
     			newPos = new Position(pos.getX(), pos.getY()+1);

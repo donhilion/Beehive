@@ -8,6 +8,7 @@ import de.stealmycode.beehive.model.world.FieldProperty;
 import de.stealmycode.beehive.model.world.IAttackable;
 import de.stealmycode.beehive.model.world.Pathfinder;
 import de.stealmycode.beehive.model.world.World;
+import de.stealmycode.beehive.utils.Log;
 import de.stealmycode.beehive.utils.Position;
 
 public abstract class AbstractMovableObject extends AbstractDrawableObject implements IMovable, IAttackable {
@@ -65,10 +66,14 @@ public abstract class AbstractMovableObject extends AbstractDrawableObject imple
     public void move(World world, Field field) {
         Pathfinder pathfinder = new Pathfinder(world, this);
         path = pathfinder.calculate(getPosition(), field.getPosition());
-//        for (Position position : path) {
-//            System.out.println(position.getX() + ", " + position. getY());
-//        }
-//        System.out.println(path);
+        if (path != null) {
+            String strpath = "Path => ";
+            for (Position position : path) {
+                strpath += "[" +position.getX() + ", " + position. getY()+"] ";
+            }
+            Log.debug(strpath);
+            System.out.println(path);
+        }
     }
     
     public void step() {
