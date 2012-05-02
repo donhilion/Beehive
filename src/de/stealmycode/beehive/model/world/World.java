@@ -1,5 +1,6 @@
 package de.stealmycode.beehive.model.world;
 
+import de.stealmycode.beehive.model.world.animals.AbstractMovableObject;
 import de.stealmycode.beehive.model.world.animals.IMovable;
 import de.stealmycode.beehive.utils.Direction;
 import de.stealmycode.beehive.utils.Position;
@@ -141,5 +142,17 @@ public class World {
         if ((neighbour = getNeighbourField(field, Direction.SOUTH_WEST)) != null) result.add(neighbour);
         if ((neighbour = getNeighbourField(field, Direction.NORTH_WEST)) != null) result.add(neighbour);
         return result;
+    }
+    
+    
+    public void moveMovables()
+    {
+    	if(movables != null && movables.size() > 0)
+    	{
+    		for(IMovable object : movables)
+    		{
+    			((AbstractMovableObject) object).step();
+    		}
+    	}
     }
 }

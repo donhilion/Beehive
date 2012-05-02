@@ -68,21 +68,23 @@ public class Game {
 //        world.addMovableObject(bee);
         Bee bee = new Bee(new Position(3, 3)); 
         world.addMovableObject(bee);        
-        bee.move(world, world.getField(new Position(19, 12)));
-        while(!window.isCloseRequested()) {
+//        bee.move(world, world.getField(new Position(19, 12)));
+        while(!window.isCloseRequested()) 
+        {
         	// v needed to enable scrolling v
-        	KeyboardEvent kEvent;
-        	do {
-        		kEvent = window.getNextKeyboardEvent();
-        	} while(kEvent != null);
+ 		
+	    	 input.registerKeyEvent(window.getNextKeyboardEvent());
 
-                bee.step();
+
+//                bee.step();
+        	
+        	world.moveMovables();
                 
         	input.registerMouseEvent(window.getMouseInfo());
         	// ^ needed to enable scrolling ^
             window.render();
             try {
-                Thread.sleep(2000/2);
+                Thread.sleep(100);
 
 //                float progress = world.getMovables().get(0).getProgress();
 //                world.getMovables().get(0).setProgress(progress + 0.1f);
