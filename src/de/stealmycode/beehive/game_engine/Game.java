@@ -66,8 +66,13 @@ public class Game {
         input = new Input(world, window);
 //        Bee bee = new Bee(Direction.NORTH_EAST, 1, 1, 1, new Position(10, 9));
 //        world.addMovableObject(bee);
-        Bee bee = new Bee(new Position(3, 3)); 
-        world.addMovableObject(bee);        
+        Bee bee = new Bee(new Position(3, 3));
+        Bee bee1 = new Bee(new Position(3, 6));
+        Bee bee2 = new Bee(new Position(5, 4));
+        
+        world.addMovableObject(bee); 
+        world.addMovableObject(bee1); 
+        world.addMovableObject(bee2);    
 //        bee.move(world, world.getField(new Position(19, 12)));
         while(!window.isCloseRequested()) 
         {
