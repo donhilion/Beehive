@@ -94,6 +94,7 @@ public class Pathfinder {
             expandNode(current, end);
             
             closedList.add(current);
+            if (current.g > 1000) return null;
         } 
         return null;
     }

@@ -14,7 +14,7 @@ Medium:
   FieldProperties:
     flowerable: 7
     walkable:   9
-    flyable:    9
+    flyable:    6
 Easy:
   FieldProperties:
     flowerable: 3
