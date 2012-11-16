@@ -20,7 +20,7 @@ public abstract class AbstractConfig {
 			data = yaml.load(new FileInputStream(file));
 			
 		} catch (FileNotFoundException e) {
-		    Log.error("Not able to acces file \"" + file+ "\". File not found");
+		    Log.error("Not able to acces file \"" + file+ "\". File not found",e);
 		}
 		if (data == null) {
 			return false;
@@ -36,7 +36,7 @@ public abstract class AbstractConfig {
 			yaml.dump(data, writer);
 			writer.close();
 		} catch (IOException e) {
-		    Log.error("Not able to write file " + file);
+		    Log.error("Not able to write file " + file,e);
 			return false;
 		}
 		return true;

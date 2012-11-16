@@ -94,4 +94,8 @@ public final class Constants {
     public final static int KEYCODE_LEFT = 31;
     public final static int KEYCODE_RIGHT = 32;
     
+    //Constants for move-events
+    public final static int GO_TO_COMB = 1;
+    
+    
 }

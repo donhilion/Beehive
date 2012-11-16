@@ -77,6 +77,20 @@ public abstract class AbstractMovableObject extends AbstractDrawableObject imple
         }
     }
     
+    
+    public void move(World world, Position targetPosition) {
+        Pathfinder pathfinder = new Pathfinder(world, this);
+        path = pathfinder.calculate(getPosition(), targetPosition);
+        if (path != null) {
+            String strpath = "Path => ";
+            for (Position position : path) {
+                strpath += "[" +position.getX() + ", " + position. getY()+"] ";
+            }
+            Log.debug(strpath);
+            System.out.println(path);
+        }
+    }
+    
     public void step() {
         if (path != null && path.size() > 0) {
             setPosition(path.remove(path.size() - 1));
