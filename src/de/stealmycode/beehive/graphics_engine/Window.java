@@ -35,6 +35,7 @@ public class Window {
 	private MeadowRenderer meadowRenderer;
 	
 	private IRenderer currentRenderer;
+	private WindowState currentState;
 	
 	/**
 	 * Creates a new instance of this class with standard values.
@@ -125,6 +126,17 @@ public class Window {
 		}
 	}
 	
+	public void changeState(WindowState newState) {
+		currentState = newState;
+		switch(currentState) {
+		case MEADOW:
+			currentRenderer = meadowRenderer;
+			break;
+		default:
+			break;
+		}
+	}
+	
 	/**
 	 * Returns the next keyboard event.
 	 * If there is no event in the queue, null is returned.
@@ -133,6 +145,7 @@ public class Window {
 	 * @return the next keyboard event or null.
 	 */
 	public KeyboardEvent getNextKeyboardEvent() {
+		Keyboard.poll();
 		if(Keyboard.next()) {
 			switch(Keyboard.getEventKey()) {
 			case Keyboard.KEY_0:
@@ -258,6 +271,7 @@ public class Window {
 	 * @return the information of the current mouse state.
 	 */
 	public MouseInfo getMouseInfo() {
+		Mouse.poll();
 		int x = Mouse.getX();
 		int y = Mouse.getY();
 		

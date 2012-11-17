@@ -2,7 +2,7 @@ package de.stealmycode.beehive;
 
 import de.stealmycode.beehive.config.Config;
 import de.stealmycode.beehive.config.GraphicsConfig;
-import de.stealmycode.beehive.game_engine.Game;
+import de.stealmycode.beehive.game_engine.Program;
 import de.stealmycode.beehive.graphics_engine.Window;
 import de.stealmycode.beehive.utils.Constants;
 import de.stealmycode.beehive.utils.Log;
@@ -22,8 +22,8 @@ public class Beehive {
         Window window = new Window();
         window.initialize();
         
-        Game game = new Game(Constants.CONFIG_MEDIUM, 21, 13);
-        game.start(window);
+        Program program = new Program(window);
+        program.start();
     }
 
     private static void loadConfigs() {
