@@ -68,15 +68,10 @@ public class Input {
 			mousePositions.clear();
 			
 			leftButtonPressed = true;
-//			Log.debug("Left Button Pressed -- X: " + mouseInfo.getX() + " --- Y: " + mouseInfo.getY());
 			
 			if(window != null)
 			{
-//				Position mousePosition = window.getGamePosition((int) mouseInfo.getX(), (int) mouseInfo.getY());
-				
-				Position mousePosition = getCombPosition((int) mouseInfo.getX(), (int) mouseInfo.getY());
-				
-//				Log.debug("Comb -- X: " + mousePosition.getX() + " --- Y: " + mousePosition.getY());
+				Position mousePosition = window.getGamePosition((int) mouseInfo.getX(), (int) mouseInfo.getY());
 				
 				/*
 				 * is any movable object selected?
@@ -84,15 +79,19 @@ public class Input {
 				 * 
 				 * else unselect the objects and look if there is a new movable object to select
 				 */
-				if(selectedObjects.size() > 0 && nextCommand != 0)
-				{
-					setNewPositionForSelectedObjects(mousePosition);
-					nextCommand = 0;
-					leftButtonPressed = false;
-					return;
-				}
 				
-				mousePositions.add(mousePosition);
+				if(mousePosition != null)
+				{
+					if(selectedObjects.size() > 0 && nextCommand != 0)
+					{
+						setNewPositionForSelectedObjects(mousePosition);
+						nextCommand = 0;
+						leftButtonPressed = false;
+						return;
+					}
+					
+					mousePositions.add(mousePosition);
+				}
 				
 			}else
 			{
@@ -100,29 +99,17 @@ public class Input {
 			}
 
 			
-//			List<IMovable> list = world.getMovables();
-//			
-//			for(IMovable tempObject : list)
-//			{
-//				if(tempObject.getPosition().getX() == (int)  mouseInfo.getX() &&
-//					tempObject.getPosition().getY() == (int) mouseInfo.getY())
-//				{
-//					
-//				}
-//			}
-			
 		}else if(!mouseInfo.isLeftButtonDown() && leftButtonPressed)
 		{
 			leftButtonPressed = false;
 			
 			if(window != null)
 			{
-//				Position mousePosition = window.getGamePosition((int) mouseInfo.getX(), (int) mouseInfo.getY());
 				boolean multiselection = true;
 				
 				Log.debug("Current List-Size: " + mousePositions.size());
 				
-				Position mousePosition = getCombPosition((int) mouseInfo.getX(), (int) mouseInfo.getY());
+				Position mousePosition = window.getGamePosition((int) mouseInfo.getX(), (int) mouseInfo.getY());
 				
 				for(Position tempPosition : mousePositions)
 				{
@@ -133,7 +120,7 @@ public class Input {
 					}
 				}
 				
-				if(multiselection)
+				if(multiselection && mousePosition != null)
 				{
 					mousePositions.add(mousePosition);
 					handleMultiSelection();
@@ -141,17 +128,19 @@ public class Input {
 				{
 					handleSingleSelection();
 				}
-//				Log.debug("Comb -- X: " + mousePosition.getX() + " --- Y: " + mousePosition.getY());
+
 			}
-			
-//			Log.debug("Left Button Released");
 		}
 	}
 	
 	private void handleSingleSelection()
 	{
 		selectedObjects.clear();
-		selectMovableObjectAtPosition(mousePositions.remove(0));
+		
+		if(mousePositions.size() > 0)
+		{
+			selectMovableObjectAtPosition(mousePositions.remove(0));
+		}
 	}
 	
 	private void handleMultiSelection()
