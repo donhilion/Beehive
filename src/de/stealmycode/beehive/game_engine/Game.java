@@ -11,7 +11,14 @@ import de.stealmycode.beehive.model.map.MapGenerator;
 import de.stealmycode.beehive.model.world.*;
 import de.stealmycode.beehive.model.world.animals.Bee;
 import de.stealmycode.beehive.utils.Position;
+
+import java.awt.Polygon;
+import java.awt.Rectangle;
 import java.util.Map.Entry;
+
+import org.newdawn.slick.Graphics;
+
+import com.sun.xml.internal.bind.v2.util.CollisionCheckStack;
 
 /**
  *

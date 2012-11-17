@@ -1,10 +1,14 @@
 package de.stealmycode.beehive.graphics_engine;
 
+import java.awt.Point;
+import java.awt.Rectangle;
 import java.util.List;
 
 import org.lwjgl.opengl.GL11;
 import org.newdawn.slick.Color;
+import org.newdawn.slick.util.Log;
 
+import de.stealmycode.beehive.model.map.MyPolygon;
 import de.stealmycode.beehive.model.world.IDrawable;
 import de.stealmycode.beehive.model.world.animals.IMovable;
 import de.stealmycode.beehive.utils.Constants;
@@ -48,6 +52,11 @@ public class MeadowRenderer implements IRenderer {
 	 */
 	private int combCountY = 13;
 	
+	/**
+	 * Map of polygons that representate the field map
+	 */
+	private MyPolygon[][] polygonMap = null;
+	
 	private int width;
 	private int height;
 	
@@ -67,6 +76,7 @@ public class MeadowRenderer implements IRenderer {
 		
 		setViewport();
 		
+		polygonMap = new MyPolygon[combCountX][combCountY];
 		GL11.glEnable(GL11.GL_TEXTURE_2D);
 		GL11.glClearColor(0.0f, 0.0f, 0.0f, 0.0f); 
 		
@@ -129,34 +139,56 @@ public class MeadowRenderer implements IRenderer {
 		Color.black.bind();		
 		GL11.glLineWidth(2.0f);
 		
-		for(int x=0; x<combCountX; x++) {
-			for(int y=0; y<combCountY; y++) {
+		for(int x = 0; x < combCountX; x++) {
+			for(int y = 0; y < combCountY; y++) {
+				
 				GL11.glBegin(GL11.GL_LINE_LOOP);
-				GL11.glVertex2f(x*sizeOfComb*0.75f,
-						height-(y*sizeOfComb*Constants.SIN_60
-								+sizeOfComb*0.5f*(1+Constants.SIN_60*(float)(x%2))));
 				
-				GL11.glVertex2f(x*sizeOfComb*0.75f+sizeOfComb*0.25f,
-						height-(y*sizeOfComb*Constants.SIN_60
-								+sizeOfComb*0.5f*(1-Constants.SIN_60+Constants.SIN_60*(float)(x%2))));
+				float x1 = Math.round(x*sizeOfComb*0.75f);
+				float y1 = Math.round(height-(y*sizeOfComb*Constants.SIN_60 + sizeOfComb*0.5f*(1+Constants.SIN_60*(float)(x%2))));			
+				GL11.glVertex2f(x1, y1);
 				
-				GL11.glVertex2f(x*sizeOfComb*0.75f+sizeOfComb*0.75f,
-						height-(y*sizeOfComb*Constants.SIN_60
-								+sizeOfComb*0.5f*(1-Constants.SIN_60+Constants.SIN_60*(float)(x%2))));
+				float x2 = Math.round(x*sizeOfComb*0.75f+sizeOfComb*0.25f);
+				float y2 = Math.round(height-(y*sizeOfComb*Constants.SIN_60 + sizeOfComb*0.5f*(1-Constants.SIN_60+Constants.SIN_60*(float)(x%2))));
+				GL11.glVertex2f(x2, y2);
 				
-				GL11.glVertex2f(x*sizeOfComb*0.75f+sizeOfComb,
-						height-(y*sizeOfComb*Constants.SIN_60
-								+sizeOfComb*0.5f*(1+Constants.SIN_60*(float)(x%2))));
 				
-				GL11.glVertex2f(x*sizeOfComb*0.75f+sizeOfComb*0.75f,
-						height-(y*sizeOfComb*Constants.SIN_60
-								+sizeOfComb*0.5f*(1+Constants.SIN_60+Constants.SIN_60*(float)(x%2))));
+				float x3 = Math.round(x*sizeOfComb*0.75f+sizeOfComb*0.75f);
+				float y3 = Math.round(height-(y*sizeOfComb*Constants.SIN_60 + sizeOfComb*0.5f*(1-Constants.SIN_60+Constants.SIN_60*(float)(x%2))));
+				GL11.glVertex2f(x3,	y3);
+								
+				float x4 = Math.round(x*sizeOfComb*0.75f+sizeOfComb);
+				float y4 = Math.round(height-(y*sizeOfComb*Constants.SIN_60 + sizeOfComb*0.5f*(1+Constants.SIN_60*(float)(x%2))));				
+				GL11.glVertex2f(x4, y4);
 				
-				GL11.glVertex2f(x*sizeOfComb*0.75f+sizeOfComb*0.25f,
-						height-(y*sizeOfComb*Constants.SIN_60
-								+sizeOfComb*0.5f*(1+Constants.SIN_60+Constants.SIN_60*(float)(x%2))));
+				float x5 = Math.round(x*sizeOfComb*0.75f+sizeOfComb*0.75f);
+				float y5 = Math.round(height-(y*sizeOfComb*Constants.SIN_60 + sizeOfComb*0.5f*(1+Constants.SIN_60+Constants.SIN_60*(float)(x%2))));
+				GL11.glVertex2f(x5, y5);
+				
+				float x6 = Math.round(x*sizeOfComb*0.75f+sizeOfComb*0.25f);
+				float y6 = Math.round(height-(y*sizeOfComb*Constants.SIN_60 + sizeOfComb*0.5f*(1+Constants.SIN_60+Constants.SIN_60*(float)(x%2))));
+				GL11.glVertex2f(x6, y6);
+				
+				if(polygonMap[x][y] == null)
+				{
+					int[] xArray = {(int) x1, (int) x2, (int) x3, (int) x4, (int) x5, (int) x6};
+					int[] yArray = {(int) y1, (int) y2, (int) y3, (int) y4, (int) y5, (int) y6};
+					
+					polygonMap[x][y] = new MyPolygon(xArray, yArray, 6);
+					
+				}
 				
 				GL11.glEnd();
+				
+//			    GL11.glBegin(GL11.GL_POLYGON);
+//			    GL11.glVertex3f(-60  x, -10 * y, 0);   
+////		        GL11.glVertex3f(combCountX * sizeOfComb, combCountY * sizeOfComb, 0);   
+//		        GL11.glVertex3f(-47.5f * x, -10 * y, 0);
+//		        GL11.glVertex3f(-35f * x, 2.5f * y, 0);
+//		        GL11.glVertex3f(-47.5f * x, -10 * y, 0);
+//		        GL11.glVertex3f(-60 * x, -10 * y, 0);
+//		        GL11.glVertex3f(-72.5f * x, -35 * y, 0);
+//		    GL11.glEnd();
 			}
 		}		
 	}
@@ -193,9 +225,14 @@ public class MeadowRenderer implements IRenderer {
 			Sprite sprite = imageManager.getSprite(object.getImageID());
 			sprite.texture.bind();
 			
+			
+//			float x = Math.round(polygonMap[object.getPosition().getX()][object.getPosition().getY()].getBounds().getCenterX());
+//			float y = Math.round(polygonMap[object.getPosition().getX()][object.getPosition().getY()].getBounds().getCenterY());
 			float x = sizeOfComb*(0.75f*(float)(object.getPosition().getX())+0.5f);
 			float y = height-sizeOfComb*(Constants.SIN_60*(float)(object.getPosition().getY())
 					+0.5f*(1+(float)(object.getPosition().getX() % 2)));
+			
+//			float y = height-( ((float) object.getPosition().getY()) *sizeOfComb*Constants.SIN_60 + sizeOfComb*0.5f*(1+Constants.SIN_60*(float)(x%2)));
 			
 			float angle = getAngleForDirection(object.getDirection());
 			
@@ -256,17 +293,23 @@ public class MeadowRenderer implements IRenderer {
 
 	@Override
 	public Position getGamePosition(int x, int y) {
-		x += camX;
-		y += camY;
 		
-		float gameX = (float) x / (sizeOfComb * 0.75f);
-		if(gameX % 1.0f < 0.25f) {
-			// complicated
+//		Log.info("Trying to find Polygon at: "+ x + " | " + y);
+				
+		for (int x1 = 0 ; x1 < combCountX ; ++x1)
+		{
+			for(int y1 = 0 ; y1 < combCountY ; ++y1)
+			{
+				MyPolygon p = polygonMap[x1][y1];
+				if(p != null && p.collidesWith(x, y))
+				{
+//					Log.info("New position of movable object: " + x1 + " | " + y1);
+					return new Position(x1, y1);
+				}
+			}
 		}
-		
-		float gameY = (height-y-sizeOfComb*0.5f*(1+Constants.SIN_60*(float)(((int)gameX)%2)))
-				/ sizeOfComb*Constants.SIN_60;
-		
-		return new Position((int) gameX, (int) gameY);
+				
+		Log.warn("can't find position...!!");
+		return null;
 	}
 }
