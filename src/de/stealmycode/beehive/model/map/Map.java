@@ -7,6 +7,7 @@ package de.stealmycode.beehive.model.map;
 import de.stealmycode.beehive.Beehive;
 import de.stealmycode.beehive.model.world.Field;
 import de.stealmycode.beehive.model.world.FieldProperty;
+import de.stealmycode.beehive.model.world.Flower;
 import de.stealmycode.beehive.model.world.IDrawable;
 import de.stealmycode.beehive.utils.Direction;
 import de.stealmycode.beehive.utils.Position;
@@ -38,9 +39,13 @@ public class Map{
 //        final int iID = chooseImageID(field.getProperties());
         List<List<Integer>> whitelistList = new ArrayList<>();
         List<Integer> spriteIDs = null;
-
+        Flower flower = null;
         for(FieldProperty fp : field.getProperties()) {
             whitelistList.add(Beehive.config.getWhitelistFor(fp.getName()));
+            if (fp.getName().equals("flyable")) {
+                drawables.add(new Flower(field.getPosition()));
+                return ;
+            }
         }
         
         if (whitelistList.size() > 0) {
@@ -52,9 +57,13 @@ public class Map{
             }
         }
         
-        if (spriteIDs != null && spriteIDs.toArray().length > 0) {
+        if (spriteIDs != null && spriteIDs.size() > 0) {
             final Random r = new Random();
-            final int spriteID = (int) spriteIDs.toArray()[r.nextInt(spriteIDs.toArray().length-1)];
+            final int spriteID = (int) spriteIDs.get(
+                    (spriteIDs.size() == 1 ? 0 :
+                    r.nextInt(spriteIDs.size()-1))
+                    );
+
 
             drawables.add(new IDrawable() {
                 

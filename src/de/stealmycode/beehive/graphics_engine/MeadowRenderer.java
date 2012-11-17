@@ -27,8 +27,6 @@ public class MeadowRenderer implements IRenderer {
 	 * The id of the background image.
 	 */
 	private static final int BACKGROUND_ID = 0;
-	
-	private static final float DIV_SQRT_2 = (float) (1.0 / Math.sqrt(2.0));
 		
 	private static final float ANGLE_60 = (float)(Math.PI/3.0f);
 	
@@ -109,33 +107,23 @@ public class MeadowRenderer implements IRenderer {
 		Color.white.bind();
 		sprite.texture.bind(); // or GL11.glBind(texture.getTextureID());
 		
-		angle += (float)(Math.PI / 4.0);
-		float cosVal = (float) Math.cos(angle);
-		float sinVal = (float) Math.sin(angle);
+		GL11.glPushMatrix();
+		GL11.glTranslatef(x, y, 0.0f);
+		GL11.glRotatef(angle, 0.0f, 0.0f, 1.0f);
+		GL11.glScalef(sprite.width * (absolute ? 1 : sizeOfComb), sprite.height * (absolute ? 1 : sizeOfComb), 0);
 		
-		float x1 = x - sprite.width * (absolute ? 1 : sizeOfComb) * DIV_SQRT_2 * sinVal;
-		float y1 = y + sprite.height * (absolute ? 1 : sizeOfComb) * DIV_SQRT_2 * cosVal;
-		
-		float x2 = x + sprite.width * (absolute ? 1 : sizeOfComb) * DIV_SQRT_2 * cosVal;
-		float y2 = y + sprite.height * (absolute ? 1 : sizeOfComb) * DIV_SQRT_2 * sinVal;
-		
-		float x3 = x + sprite.width * (absolute ? 1 : sizeOfComb) * DIV_SQRT_2 * sinVal;
-		float y3 = y - sprite.height * (absolute ? 1 : sizeOfComb) * DIV_SQRT_2 * cosVal;
-		
-		float x4 = x - sprite.width * (absolute ? 1 : sizeOfComb) * DIV_SQRT_2 * cosVal;
-		float y4 = y - sprite.height * (absolute ? 1 : sizeOfComb) * DIV_SQRT_2 * sinVal;
-		
-
 		GL11.glBegin(GL11.GL_QUADS);
 		GL11.glTexCoord2f(sprite.x,sprite.y);
-		GL11.glVertex2f(x1, y1);
+		GL11.glVertex2f(-0.5f, -0.5f);
 		GL11.glTexCoord2f(sprite.x+sprite.rectWidth,sprite.y);
-		GL11.glVertex2f(x2, y2);
+		GL11.glVertex2f(0.5f, -0.5f);
 		GL11.glTexCoord2f(sprite.x+sprite.rectWidth,sprite.y+sprite.rectHeight);
-		GL11.glVertex2f(x3, y3);
+		GL11.glVertex2f(0.5f, 0.5f);
 		GL11.glTexCoord2f(sprite.x,sprite.y+sprite.rectHeight);
-		GL11.glVertex2f(x4, y4);
+		GL11.glVertex2f(-0.5f, 0.5f);
 		GL11.glEnd();
+		
+		GL11.glPopMatrix();
 	}
 	
 	private void renderBackground() {
