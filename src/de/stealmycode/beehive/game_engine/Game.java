@@ -13,7 +13,14 @@ import de.stealmycode.beehive.model.world.*;
 import de.stealmycode.beehive.model.world.animals.Bee;
 import de.stealmycode.beehive.utils.Direction;
 import de.stealmycode.beehive.utils.Position;
+
+import java.awt.Polygon;
+import java.awt.Rectangle;
 import java.util.Map.Entry;
+
+import org.newdawn.slick.Graphics;
+
+import com.sun.xml.internal.bind.v2.util.CollisionCheckStack;
 
 /**
  *
@@ -64,8 +71,7 @@ public class Game {
         window.setStaticObjects(map.getDrawables());
         window.setDynamicObjects(world.getMovables());
         input = new Input(world, window);
-//        Bee bee = new Bee(Direction.NORTH_EAST, 1, 1, 1, new Position(10, 9));
-//        world.addMovableObject(bee);
+
         Bee bee = new Bee(new Position(3, 3));
         Bee bee1 = new Bee(new Position(3, 6));
         Bee bee2 = new Bee(new Position(5, 4));
@@ -73,26 +79,18 @@ public class Game {
         world.addMovableObject(bee); 
         world.addMovableObject(bee1); 
         world.addMovableObject(bee2);    
-//        bee.move(world, world.getField(new Position(19, 12)));
+
         while(!window.isCloseRequested()) 
-        {
-        	// v needed to enable scrolling v
- 		
-	    	 input.registerKeyEvent(window.getNextKeyboardEvent());
-
-
-//                bee.step();
+        {		
+	    	input.registerKeyEvent(window.getNextKeyboardEvent());	    	    	 
         	
         	world.moveMovables();
                 
         	input.registerMouseEvent(window.getMouseInfo());
-        	// ^ needed to enable scrolling ^
             window.render();
             try {
                 Thread.sleep(100);
 
-//                float progress = world.getMovables().get(0).getProgress();
-//                world.getMovables().get(0).setProgress(progress + 0.1f);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
