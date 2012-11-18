@@ -38,6 +38,8 @@ public class Window {
 	 * The {@link IRenderer} for rendering meadows.
 	 */
 	private MeadowRenderer meadowRenderer;
+	private MenuRenderer menuRenderer;
+	
 
 	/**
 	 * The active {@link IRenderer}.
@@ -87,10 +89,15 @@ public class Window {
 
 			imageManager = new ImageManager();
 			imageManager.loadConfig("config/graphics.yml");
-
+			
+			menuRenderer = new MenuRenderer();
+			menuRenderer.init(width,height);
+			
+			menuRenderer.setImageRenderer(imageManager);
 			meadowRenderer.setImageRenderer(imageManager);
-			currentRenderer = meadowRenderer;
-
+//			currentRenderer = meadowRenderer;
+			currentRenderer = menuRenderer;
+			
 			return true;
 		} catch (LWJGLException e) {
 			Log.error("Could not set display mode.");
@@ -118,11 +125,15 @@ public class Window {
 	 * Renders the objects.
 	 */
 	public void render() {
+
 		if (currentRenderer != null) {
 			currentRenderer.draw();
 		}
 
 		Display.update();
+        Display.setTitle("during_swapbuffers(): " + System.currentTimeMillis());
+
+        Display.setTitle("after_update(): " + System.currentTimeMillis());
 		Display.sync(60); // seems not to work
 	}
 
