@@ -33,6 +33,7 @@ public class Window {
 	
 	private ImageManager imageManager;
 	private MeadowRenderer meadowRenderer;
+	private MenuRenderer menuRenderer;
 	
 	private IRenderer currentRenderer;
 	
@@ -75,8 +76,13 @@ public class Window {
 			imageManager = new ImageManager();
 			imageManager.loadConfig("config/graphics.yml");
 			
+			menuRenderer = new MenuRenderer();
+			menuRenderer.init(width,height);
+			
+			menuRenderer.setImageRenderer(imageManager);
 			meadowRenderer.setImageRenderer(imageManager);
-			currentRenderer = meadowRenderer;
+//			currentRenderer = meadowRenderer;
+			currentRenderer = menuRenderer;
 			
 			return true;
 		} catch (LWJGLException e) {
@@ -105,11 +111,23 @@ public class Window {
 	 * Renders the objects.
 	 */
 	public void render() {
+        Display.setTitle("before_draw: " + System.currentTimeMillis());
 		if(currentRenderer != null) {
+	        Display.setTitle("draw: " + System.currentTimeMillis());
 			currentRenderer.draw();
 		}
 		
+        Display.setTitle("during_Messages(): " + System.currentTimeMillis());
 		Display.update();
+//        Display.processMessages();
+        Display.setTitle("during_swapbuffers(): " + System.currentTimeMillis());
+//        try {
+//			Display.swapBuffers();
+//		} catch (LWJGLException e) {
+			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+        Display.setTitle("after_update(): " + System.currentTimeMillis());
 		Display.sync(60); // seems not to work
 	}
 	
