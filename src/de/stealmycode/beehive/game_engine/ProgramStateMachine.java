@@ -4,7 +4,7 @@ package de.stealmycode.beehive.game_engine;
  * Represents a program state machine.
  * 
  * @author donhilion
- *
+ * 
  */
 public interface ProgramStateMachine {
 	/**

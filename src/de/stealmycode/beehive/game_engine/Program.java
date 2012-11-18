@@ -8,23 +8,34 @@ import de.stealmycode.beehive.utils.Constants;
  * This class contains the main loop of the program
  * 
  * @author donhilion
- *
+ * 
  */
 public class Program implements ProgramStateMachine {
-	
+	/**
+	 * The current {@link ProgramState}.
+	 */
 	private ProgramState currentState;
+	/**
+	 * The current {@link Game} of the program.
+	 */
 	private Game game;
-//	private Menu menu;
+	// private Menu menu;
+	/**
+	 * The {@link Window} of the program.
+	 */
 	private Window window;
 
 	/*
 	 * (non-Javadoc)
-	 * @see de.stealmycode.beehive.game_engine.ProgramStateMachine#changeState(de.stealmycode.beehive.game_engine.ProgramState)
+	 * 
+	 * @see
+	 * de.stealmycode.beehive.game_engine.ProgramStateMachine#changeState(de
+	 * .stealmycode.beehive.game_engine.ProgramState)
 	 */
 	@Override
 	public void changeState(ProgramState newState) {
 		currentState = newState;
-		switch(currentState) {
+		switch (currentState) {
 		case MENU:
 			window.changeState(WindowState.MENU);
 			break;
@@ -35,33 +46,43 @@ public class Program implements ProgramStateMachine {
 			break;
 		}
 	}
-	
+
+	/**
+	 * Creates a new instance of this class.
+	 * 
+	 * @param window
+	 *            The {@link Window} which should be used.
+	 */
 	public Program(Window window) {
 		this.window = window;
 		game = new Game(Constants.CONFIG_MEDIUM, 21, 13, window);
 		currentState = ProgramState.GAME;
 	}
-	
+
+	/**
+	 * Starts the program. This method contains the main loop which will call
+	 * the tick method of the current state.
+	 */
 	public void start() {
-		while(currentState != ProgramState.STOP) {
-			switch(currentState) {
+		while (currentState != ProgramState.STOP) {
+			switch (currentState) {
 			case GAME:
 				game.tick();
 			default:
 				break;
 			}
 
-            try {
-                Thread.sleep(100);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-            if(window.isCloseRequested()) {
-            	currentState = ProgramState.STOP;
-            }
+			try {
+				Thread.sleep(100);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+			if (window.isCloseRequested()) {
+				currentState = ProgramState.STOP;
+			}
 		}
 
-        window.closeWindow();
+		window.closeWindow();
 	}
 
 }
