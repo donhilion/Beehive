@@ -5,123 +5,126 @@
 package de.stealmycode.beehive.game_engine;
 
 import de.stealmycode.beehive.Beehive;
-import de.stealmycode.beehive.graphics_engine.KeyboardEvent;
 import de.stealmycode.beehive.graphics_engine.Window;
 import de.stealmycode.beehive.model.map.Map;
 import de.stealmycode.beehive.model.map.MapGenerator;
 import de.stealmycode.beehive.model.world.*;
 import de.stealmycode.beehive.model.world.animals.Bee;
-import de.stealmycode.beehive.utils.Direction;
 import de.stealmycode.beehive.utils.Position;
+
 import java.util.Map.Entry;
 
 /**
- *
+ * This class controls the game relevant actions.
+ * 
  * @author fate
  */
 public class Game {
-    
-    private String difficulty;
-    
-    private AvailableProperties availableProperties;
-    private World               world;
-    private Map                 map;
-    private Input				input;
 
-    /**
-     * 
-     * @param difficulty 
-     */
-    public Game(String difficulty, int width, int height) {
-        this(difficulty, null, null);
-        
-        world = new World(width, height);
-        world.generateWorld(availableProperties);
-        map = MapGenerator.getInstance().generate(world);
-        map.addDrawable(new Hive(new Position(width/2, height/2)));
-//        drawNudePics();
-    }
-    
-    public Game(String difficulty, World world, Map map) {
-        this.difficulty = difficulty;
-        availableProperties = new AvailableProperties();
-        readFieldProperties();
-        this.world = world;
-        this.map = map;
-    }
-    
-    /**
-     * 
-     */
-    private void readFieldProperties() {
-        for (Entry<String, Float> entry : Beehive.config.getFieldProperties(difficulty).entrySet()) {
-            // Might change this ugly cast
-            availableProperties.addProperty(new FieldProperty(entry.getKey(), ((Number)entry.getValue()).floatValue()));
-        }
-    }
+	/**
+	 * The difficulty of the game.
+	 */
+	private String difficulty;
 
-    public void start(Window window) {
-        window.setStaticObjects(map.getDrawables());
-        window.setDynamicObjects(world.getMovables());
-        input = new Input(world, window);
-//        Bee bee = new Bee(Direction.NORTH_EAST, 1, 1, 1, new Position(10, 9));
-//        world.addMovableObject(bee);
-        Bee bee = new Bee(new Position(3, 3));
-        Bee bee1 = new Bee(new Position(3, 6));
-        Bee bee2 = new Bee(new Position(5, 4));
-        
-        world.addMovableObject(bee); 
-        world.addMovableObject(bee1); 
-        world.addMovableObject(bee2);    
-//        bee.move(world, world.getField(new Position(19, 12)));
-        while(!window.isCloseRequested()) 
-        {
-        	// v needed to enable scrolling v
- 		
-	    	 input.registerKeyEvent(window.getNextKeyboardEvent());
+	/**
+	 * The settings of the current difficulty.
+	 */
+	private AvailableProperties availableProperties;
+	/**
+	 * The {@link World} of the game.
+	 */
+	private World world;
+	/**
+	 * The {@link Map} of the game.
+	 */
+	private Map map;
+	/**
+	 * The {@link Input} to handle user inputs.
+	 */
+	private Input input;
+	/**
+	 * The {@link Window} of the program the game runs in.
+	 */
+	private Window window;
 
+	/**
+	 * Creates a new instance of this class and sets some fields. Furthermore a
+	 * {@link World} and {@link Map} will be created.
+	 * 
+	 * @param difficulty
+	 *            The difficulty of the game.
+	 * @param width
+	 *            The width of the window.
+	 * @param height
+	 *            The height of the window.
+	 * @param window
+	 *            The {@link Window} of the program.
+	 */
+	public Game(String difficulty, int width, int height, Window window) {
+		this(difficulty, null, null, window);
 
-//                bee.step();
-        	
-        	world.moveMovables();
-                
-        	input.registerMouseEvent(window.getMouseInfo());
-        	// ^ needed to enable scrolling ^
-            window.render();
-            try {
-                Thread.sleep(100);
+		world = new World(width, height);
+		world.generateWorld(availableProperties);
+		map = MapGenerator.getInstance().generate(world);
+		map.addDrawable(new Hive(new Position(width / 2, height / 2)));
 
-//                float progress = world.getMovables().get(0).getProgress();
-//                world.getMovables().get(0).setProgress(progress + 0.1f);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
+		window.setStaticObjects(map.getDrawables());
+		window.setDynamicObjects(world.getMovables());
+		input = new Input(world, window);
 
-        window.closeWindow();
+		Bee bee = new Bee(new Position(3, 3));
+		Bee bee1 = new Bee(new Position(3, 6));
+		Bee bee2 = new Bee(new Position(5, 4));
 
-    }
+		world.addMovableObject(bee);
+		world.addMovableObject(bee1);
+		world.addMovableObject(bee2);
+	}
 
-    private void drawNudePics() {
-        for(int i = 1;i < 37; i++) {
-            final int j = i;
-            map.addDrawable(new IDrawable() {
+	/**
+	 * Creates a new instance of this class and sets some fields. Furthermore
+	 * the config will be loaded.
+	 * 
+	 * @param difficulty
+	 *            The difficulty of the game.
+	 * @param world
+	 *            The {@link World} to use.
+	 * @param map
+	 *            The {@link Map} to use.
+	 * @param window
+	 *            The {@link Window} of the program.
+	 */
+	public Game(String difficulty, World world, Map map, Window window) {
+		this.difficulty = difficulty;
+		availableProperties = new AvailableProperties();
+		readFieldProperties();
+		this.world = world;
+		this.map = map;
+		this.window = window;
+	}
 
-                @Override
-                public int getImageID() {
-                    return j;
-                }
+	/**
+	 * This method reads the config of the given difficulty level.
+	 */
+	private void readFieldProperties() {
+		for (Entry<String, Float> entry : Beehive.config.getFieldProperties(
+				difficulty).entrySet()) {
+			// Might change this ugly cast
+			availableProperties.addProperty(new FieldProperty(entry.getKey(),
+					((Number) entry.getValue()).floatValue()));
+		}
+	}
 
-                @Override
-                public Direction getDirection() {
-                    return Direction.EAST;
-                }
+	/**
+	 * This method will be called every tick the program state is
+	 * {@link ProgramState#GAME}.
+	 */
+	public void tick() {
+		input.registerKeyEvent(window.getNextKeyboardEvent());
 
-                @Override
-                public Position getPosition() {
-                    return new Position(j % 20, j < 20 ? 1 : 3);
-                }
-            });
-        }
-    }
+		world.moveMovables();
+
+		input.registerMouseEvent(window.getMouseInfo());
+		window.render();
+	}
 }

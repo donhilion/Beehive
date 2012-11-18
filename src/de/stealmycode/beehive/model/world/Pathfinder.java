@@ -65,9 +65,11 @@ public class Pathfinder {
     }
     
     /**
+     * Calculate the distance between source and target position and use this
+     * as prediction for the path length
      * 
-     * @param source
-     * @param target
+     * @param source	source position
+     * @param target	target position
      * @return
      */
     private static int predictDistance(Position source, Position target) {
@@ -85,7 +87,8 @@ public class Pathfinder {
      */
     public List<Position> calculate(Position start, Position end) {
         openList.add(new Item(start, 0));
-        while (!openList.isEmpty()) {
+        do {
+        	
             Item current = openList.remove();
             if (current.position.equals(end)) {
                 return getPath(current); 
@@ -94,7 +97,8 @@ public class Pathfinder {
             expandNode(current, end);
             
             closedList.add(current);
-        } 
+            if (current.g > 1000) return null;
+        } while (!openList.isEmpty());
         return null;
     }
 
@@ -110,7 +114,9 @@ public class Pathfinder {
             }
             Position position = field.getPosition();
             
-            containsPosition(closedList, position);
+            if (containsPosition(closedList, position)) {
+            	continue;
+            }
             
             int temp_g = currentItem.g + 1;
             
