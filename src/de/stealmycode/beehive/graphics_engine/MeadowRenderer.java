@@ -10,6 +10,7 @@ import org.newdawn.slick.util.Log;
 
 import de.stealmycode.beehive.model.map.MyPolygon;
 import de.stealmycode.beehive.model.world.IDrawable;
+import de.stealmycode.beehive.model.world.animals.AbstractMovableObject;
 import de.stealmycode.beehive.model.world.animals.IMovable;
 import de.stealmycode.beehive.utils.Constants;
 import de.stealmycode.beehive.utils.Direction;
@@ -38,6 +39,8 @@ public class MeadowRenderer implements IRenderer {
 	 * List of dynamic objects to draw.
 	 */
 	private List<IMovable> dynamicObjects;
+	
+	private List<AbstractMovableObject> selectedObjects;
 	
 	/**
 	 * The size of on comb. This is equal to the width of the comb.
@@ -121,6 +124,50 @@ public class MeadowRenderer implements IRenderer {
 		GL11.glVertex2f(0.5f, 0.5f);
 		GL11.glTexCoord2f(sprite.x,sprite.y+sprite.rectHeight);
 		GL11.glVertex2f(-0.5f, 0.5f);
+				
+		GL11.glEnd();
+		
+		GL11.glPopMatrix();
+	}
+	
+	private void drawSprite(Sprite sprite, float x, float y, float angle, int fieldX, int fieldY, boolean absolute) {
+		Color.white.bind();
+		sprite.texture.bind(); // or GL11.glBind(texture.getTextureID());
+		
+		GL11.glPushMatrix();
+		GL11.glTranslatef(x, y, 0.0f);
+		GL11.glRotatef(angle, 0.0f, 0.0f, 1.0f);
+		GL11.glScalef(sprite.width * (absolute ? 1 : sizeOfComb), sprite.height * (absolute ? 1 : sizeOfComb), 0);
+		
+		GL11.glBegin(GL11.GL_QUADS);
+		GL11.glTexCoord2f(sprite.x,sprite.y);
+		GL11.glVertex2f(-0.5f, -0.5f);
+		GL11.glTexCoord2f(sprite.x+sprite.rectWidth,sprite.y);
+		GL11.glVertex2f(0.5f, -0.5f);
+		GL11.glTexCoord2f(sprite.x+sprite.rectWidth,sprite.y+sprite.rectHeight);
+		GL11.glVertex2f(0.5f, 0.5f);
+		GL11.glTexCoord2f(sprite.x,sprite.y+sprite.rectHeight);
+		GL11.glVertex2f(-0.5f, 0.5f);
+		
+		if(selectedObjects != null)
+		{
+			for(AbstractMovableObject o : selectedObjects)
+			{
+				Position pos = o.getPosition();
+				int posX = pos.getX();
+				int posY = pos.getY();
+				
+				if(posX == fieldX && posY == fieldY)
+				{							
+					GL11.glEnable(GL11.GL_BLEND);
+					GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+					GL11.glTexEnvi(GL11.GL_TEXTURE_ENV, GL11.GL_TEXTURE_ENV_MODE, GL11.GL_MODULATE);
+					GL11.glColor4ub((byte)255, (byte)0, (byte)0, (byte)127);
+					GL11.glDisable(GL11.GL_BLEND);
+				}
+			}
+		}
+		
 		GL11.glEnd();
 		
 		GL11.glPopMatrix();
@@ -129,7 +176,8 @@ public class MeadowRenderer implements IRenderer {
 	private void renderBackground() {
 		Sprite background = imageManager.getSprite(BACKGROUND_ID);
 		for(float x=-background.width/2.0f; x<width+background.width/2.0f; x+=background.width) {
-			for(float y=-background.height/2.0f; y<height+background.height/2.0f; y+=background.height) {
+			for(float y=-background.height/2.0f; y<height+background.height/2.0f; y+=background.height) {				
+				
 				drawSprite(background, x, y, 0.0f, true);
 			}
 		}
@@ -141,7 +189,7 @@ public class MeadowRenderer implements IRenderer {
 		
 		for(int x = 0; x < combCountX; x++) {
 			for(int y = 0; y < combCountY; y++) {
-				
+								
 				GL11.glBegin(GL11.GL_LINE_LOOP);
 				
 				float x1 = Math.round(x*sizeOfComb*0.75f);
@@ -203,7 +251,7 @@ public class MeadowRenderer implements IRenderer {
 		for(IDrawable object : staticObjects) {
 			Sprite sprite = imageManager.getSprite(object.getImageID());
 			sprite.texture.bind();
-			
+				
 			float x = sizeOfComb*(0.75f*(float)(object.getPosition().getX())+0.5f);
 			float y = height-sizeOfComb*(Constants.SIN_60*(float)(object.getPosition().getY())
 					+0.5f*(1+(float)(object.getPosition().getX() % 2)));
@@ -246,6 +294,52 @@ public class MeadowRenderer implements IRenderer {
 		}
 	}
 	
+	private void renderFieldSelection()
+	{
+		Color.white.bind();
+		
+		if(selectedObjects != null)
+		{
+			for(AbstractMovableObject o : selectedObjects)
+			{				
+				Position pos = o.getPosition();
+				int posX = pos.getX();
+				int posY = pos.getY();
+
+				int[] x = polygonMap[posX][posY].xpoints;
+				int[] y = polygonMap[posX][posY].ypoints;
+				
+				GL11.glPushMatrix();
+				GL11.glColor4ub((byte) 255, (byte) 0, (byte) 0, (byte) 255);
+				GL11.glBegin(GL11.GL_POLYGON);
+				GL11.glVertex3f(x[0], y[0], 0);
+				GL11.glVertex3f(x[1], y[1], 0);
+				GL11.glVertex3f(x[2], y[2], 0); 
+				GL11.glVertex3f(x[3], y[3], 0); 
+				GL11.glVertex3f(x[4], y[4], 0);
+				GL11.glVertex3f(x[5], y[5], 0); 
+				
+//				GL11.glVertex3f(x[5], y[5], 0);
+//				GL11.glVertex3f(x[4], y[4], 0); 
+//				GL11.glVertex3f(x[3], y[3], 0); 
+//				GL11.glVertex3f(x[2], y[2], 0); 
+//				GL11.glVertex3f(x[1], y[1], 0); 
+				
+				GL11.glEnd();
+				GL11.glPopMatrix();
+
+//				GL11.glEnable(GL11.GL_BLEND);
+//				GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+//				GL11.glTexEnvi(GL11.GL_TEXTURE_ENV, GL11.GL_TEXTURE_ENV_MODE, GL11.GL_MODULATE);
+//				GL11.glColor4ub((byte)255, (byte)0, (byte)0, (byte)127);
+//				GL11.glDisable(GL11.GL_BLEND);
+
+			}
+
+
+		}
+	}
+	
 	public void draw() {
 		if(imageManager == null) {
 			return;
@@ -258,8 +352,10 @@ public class MeadowRenderer implements IRenderer {
 		
 		renderBackground();
 		renderField();
+		renderFieldSelection();
 		renderStatics();
 		renderDynamics();
+		
 	}
 	
 	public void setImageRenderer(ImageManager imageManager) {
@@ -311,5 +407,11 @@ public class MeadowRenderer implements IRenderer {
 				
 		Log.warn("can't find position...!!");
 		return null;
+	}
+
+	@Override
+	public void setSelectedObjects(List<AbstractMovableObject> list) {
+		
+		this.selectedObjects = list;
 	}
 }

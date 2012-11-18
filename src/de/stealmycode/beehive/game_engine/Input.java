@@ -175,13 +175,17 @@ public class Input {
 	
 	private void selectMovableObjectAtPosition(Position position)
 	{		
-		for(IMovable object : world.getMovables())
+		List<IMovable> listOfMovables = world.getMovables();
+		
+		for(IMovable object : listOfMovables)
 		{
 			if(object.getPosition().equals(position))
 			{			
 				if(!selectedObjects.contains((AbstractMovableObject) object))
 				{
 					selectedObjects.add((AbstractMovableObject) object);
+					
+					window.setSelectedObjects(selectedObjects);
 					
 					Log.debug("I found a bee =)");
 				}
@@ -190,6 +194,8 @@ public class Input {
 		
 		Log.debug(selectedObjects.size() + " Objects selected");
 	}
+	
+	
 	
 	
 	public void registerKeyEvent(KeyboardEvent kEvent)

@@ -12,9 +12,9 @@ Hard:
     flyable:    9
 Medium:
   FieldProperties:
-    flowerable: 7
+    flowerable: 3
     walkable:   9
-    flyable:    6
+    flyable:    4
 Easy:
   FieldProperties:
     flowerable: 3

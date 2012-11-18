@@ -87,6 +87,7 @@ public class Game {
         	world.moveMovables();
                 
         	input.registerMouseEvent(window.getMouseInfo());
+        	
             window.render();
             try {
                 Thread.sleep(100);
