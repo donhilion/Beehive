@@ -9,6 +9,7 @@ import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
 
 import de.stealmycode.beehive.model.world.IDrawable;
+import de.stealmycode.beehive.model.world.animals.AbstractMovableObject;
 import de.stealmycode.beehive.model.world.animals.IMovable;
 import de.stealmycode.beehive.utils.Constants;
 import de.stealmycode.beehive.utils.Log;
@@ -50,6 +51,9 @@ public class Window {
 	 */
 	private WindowState currentState;
 
+	
+	private List<AbstractMovableObject> selectedObjects = null;
+	
 	/**
 	 * Creates a new instance of this class with standard values.
 	 */
@@ -124,7 +128,9 @@ public class Window {
 	 * Renders the objects.
 	 */
 	public void render() {
-
+		if(meadowRenderer != null) {
+			meadowRenderer.setSelectedObjects(selectedObjects);
+		}
 		if (currentRenderer != null) {
 			currentRenderer.draw();
 		}
@@ -417,6 +423,16 @@ public class Window {
 			return null;
 		}
 		return currentRenderer.getGamePosition(x, y);
+	}
+
+
+	public void setSelectedObjects(List<AbstractMovableObject> selectedObjects)
+	{
+		this.selectedObjects = selectedObjects;
+		if(meadowRenderer != null)
+		{
+			meadowRenderer.setSelectedObjects(selectedObjects);
+		}
 	}
 	
 	/**

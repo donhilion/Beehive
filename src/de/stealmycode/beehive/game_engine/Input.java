@@ -176,12 +176,20 @@ public class Input {
 	 * @param position
 	 *            The position of the movable object.
 	 */
-	private void selectMovableObjectAtPosition(Position position) {
-		for (IMovable object : world.getMovables()) {
-			if (object.getPosition().equals(position)) {
-				if (!selectedObjects.contains((AbstractMovableObject) object)) {
+	private void selectMovableObjectAtPosition(Position position)
+	{		
+		List<IMovable> listOfMovables = world.getMovables();
+		
+		for(IMovable object : listOfMovables)
+		{
+			if(object.getPosition().equals(position))
+			{			
+				if(!selectedObjects.contains((AbstractMovableObject) object))
+				{
 					selectedObjects.add((AbstractMovableObject) object);
-
+					
+					window.setSelectedObjects(selectedObjects);
+					
 					Log.debug("I found a bee =)");
 				}
 			}
