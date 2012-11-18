@@ -314,6 +314,9 @@ public class Window {
 			case Keyboard.KEY_MINUS:
 				return new KeyboardEvent(Constants.KEYCODE_MINUS,
 						Keyboard.getEventKeyState());
+			case Keyboard.KEY_RETURN:
+				return new KeyboardEvent(Constants.KEYCODE_RETURN,
+						Keyboard.getEventKeyState());
 
 			case Keyboard.KEY_UP:
 				scrollY(Keyboard.getEventKeyState() ? 1 : 0);
@@ -401,6 +404,24 @@ public class Window {
 			return null;
 		}
 		return currentRenderer.getGamePosition(x, y);
+	}
+	
+	/**
+	 * Sets the entries which will be shown in the menu.
+	 * 
+	 * @param entries The entries to show.
+	 */
+	public void setMenuEntries(String[] entries) {
+		// TODO: after MenuRenderer is finished.
+	}
+	
+	/**
+	 * Sets the selected index of the menu.
+	 * 
+	 * @param index The index to select.
+	 */
+	public void setSelectedMenuEntry(int index) {
+		// TODO: after MenuRenderer is finished.
 	}
 
 }
