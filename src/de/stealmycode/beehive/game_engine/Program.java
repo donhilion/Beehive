@@ -19,7 +19,7 @@ public class Program implements ProgramStateMachine {
 	 * The current {@link Game} of the program.
 	 */
 	private Game game;
-	// private Menu menu;
+	private Menu menu;
 	/**
 	 * The {@link Window} of the program.
 	 */
@@ -55,8 +55,9 @@ public class Program implements ProgramStateMachine {
 	 */
 	public Program(Window window) {
 		this.window = window;
-		game = new Game(Constants.CONFIG_MEDIUM, 21, 13, window);
-		currentState = ProgramState.GAME;
+		game = new Game(Constants.CONFIG_MEDIUM, 21, 13, window, this);
+		menu = new Menu(this, window);
+		currentState = ProgramState.MENU;
 	}
 
 	/**
@@ -68,12 +69,16 @@ public class Program implements ProgramStateMachine {
 			switch (currentState) {
 			case GAME:
 				game.tick();
+				break;
+			case MENU:
+				menu.tick();
+				break;
 			default:
 				break;
 			}
 
 			try {
-				Thread.sleep(100);
+				Thread.sleep(20);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}

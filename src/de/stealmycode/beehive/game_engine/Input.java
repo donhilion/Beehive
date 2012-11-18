@@ -44,6 +44,8 @@ public class Input {
 	 * The next command which should be executed on click.
 	 */
 	private int nextCommand = 0;
+	
+	private ProgramStateMachine stateMachine;
 
 	/**
 	 * Creates a new instance of this class.
@@ -53,9 +55,10 @@ public class Input {
 	 * @param window
 	 *            The {@link Window} of the program.
 	 */
-	public Input(World world, Window window) {
+	public Input(World world, Window window, ProgramStateMachine stateMachine) {
 		this.world = world;
 		this.window = window;
+		this.stateMachine = stateMachine;
 
 		selectedObjects = new LinkedList<AbstractMovableObject>();
 		mousePositions = new LinkedList<Position>();
@@ -209,6 +212,11 @@ public class Input {
 			nextCommand = 0;
 			Log.warning("Selection cleared...");
 
+			break;
+		
+		case Constants.KEYCODE_F10:
+			stateMachine.changeState(ProgramState.MENU);
+			
 			break;
 
 		default:

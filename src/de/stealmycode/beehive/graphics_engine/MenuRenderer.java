@@ -120,7 +120,7 @@ public class MenuRenderer implements IRenderer {
 			FontManager fontMan = new FontManager();
 			GL11.glPushMatrix();
 			GL11.glScalef(1.0f, -1.0f, 1.0f);
-			for (int n = 4; n >= 0; n--) {
+			for (int n = 0; n < menuElements.length; n++) {
 				if (selected == n) {
 					fontMan.drawString(menuElements[n], (width / 2) - 160, -1
 							* height + 30 + n * 100, 60, true);

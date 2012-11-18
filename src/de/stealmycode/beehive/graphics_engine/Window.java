@@ -95,7 +95,6 @@ public class Window {
 			
 			menuRenderer.setImageRenderer(imageManager);
 			meadowRenderer.setImageRenderer(imageManager);
-//			currentRenderer = meadowRenderer;
 			currentRenderer = menuRenderer;
 			
 			return true;
@@ -131,9 +130,6 @@ public class Window {
 		}
 
 		Display.update();
-        Display.setTitle("during_swapbuffers(): " + System.currentTimeMillis());
-
-        Display.setTitle("after_update(): " + System.currentTimeMillis());
 		Display.sync(60); // seems not to work
 	}
 
@@ -170,6 +166,8 @@ public class Window {
 		case MEADOW:
 			currentRenderer = meadowRenderer;
 			break;
+		case MENU:
+			currentRenderer = menuRenderer;
 		default:
 			break;
 		}
@@ -345,6 +343,10 @@ public class Window {
 				scrollX(Keyboard.getEventKeyState() ? 1 : 0);
 				return new KeyboardEvent(Constants.KEYCODE_RIGHT,
 						Keyboard.getEventKeyState());
+			
+			case Keyboard.KEY_F10:
+				return new KeyboardEvent(Constants.KEYCODE_F10,
+						Keyboard.getEventKeyState());
 
 			default:
 				return new KeyboardEvent(-1, false);
@@ -423,7 +425,9 @@ public class Window {
 	 * @param entries The entries to show.
 	 */
 	public void setMenuEntries(String[] entries) {
-		// TODO: after MenuRenderer is finished.
+		if(menuRenderer != null) {
+			menuRenderer.setMenuElements(entries);
+		}
 	}
 	
 	/**
@@ -432,7 +436,9 @@ public class Window {
 	 * @param index The index to select.
 	 */
 	public void setSelectedMenuEntry(int index) {
-		// TODO: after MenuRenderer is finished.
+		if(menuRenderer != null) {
+			menuRenderer.setSelected(index);
+		}
 	}
 
 }

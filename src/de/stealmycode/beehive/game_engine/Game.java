@@ -60,7 +60,7 @@ public class Game {
 	 * @param window
 	 *            The {@link Window} of the program.
 	 */
-	public Game(String difficulty, int width, int height, Window window) {
+	public Game(String difficulty, int width, int height, Window window, ProgramStateMachine stateMachine) {
 		this(difficulty, null, null, window);
 
 		world = new World(width, height);
@@ -70,7 +70,7 @@ public class Game {
 
 		window.setStaticObjects(map.getDrawables());
 		window.setDynamicObjects(world.getMovables());
-		input = new Input(world, window);
+		input = new Input(world, window, stateMachine);
 
 		Bee bee = new Bee(new Position(3, 3));
 		Bee bee1 = new Bee(new Position(3, 6));

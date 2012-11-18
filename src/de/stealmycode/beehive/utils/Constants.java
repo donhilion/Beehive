@@ -88,11 +88,25 @@ public final class Constants {
     public final static int KEYCODE_COMMA = 26;
     public final static int KEYCODE_DOT = 27;
     public final static int KEYCODE_MINUS = 28;
+    public final static int KEYCODE_RETURN = 29;
     
-    public final static int KEYCODE_UP = 29;
-    public final static int KEYCODE_DOWN = 30;
-    public final static int KEYCODE_LEFT = 31;
-    public final static int KEYCODE_RIGHT = 32;
+    public final static int KEYCODE_UP = 30;
+    public final static int KEYCODE_DOWN = 31;
+    public final static int KEYCODE_LEFT = 32;
+    public final static int KEYCODE_RIGHT = 33;
+    
+    public final static int KEYCODE_F1 = 34;
+    public final static int KEYCODE_F2 = 35;
+    public final static int KEYCODE_F3 = 36;
+    public final static int KEYCODE_F4 = 37;
+    public final static int KEYCODE_F5 = 38;
+    public final static int KEYCODE_F6 = 39;
+    public final static int KEYCODE_F7 = 40;
+    public final static int KEYCODE_F8 = 41;
+    public final static int KEYCODE_F9 = 42;
+    public final static int KEYCODE_F10 = 43;
+    public final static int KEYCODE_F11 = 44;
+    public final static int KEYCODE_F12 = 45;
     
     //Constants for move-events
     public final static int GO_TO_COMB = 1;
